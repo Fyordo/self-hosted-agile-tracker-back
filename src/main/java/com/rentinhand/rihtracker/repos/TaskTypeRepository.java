@@ -1,4 +1,4 @@
-package com.rentinhand.rihtracker.repo;
+package com.rentinhand.rihtracker.repos;
 
 import com.rentinhand.rihtracker.entities.TaskType;
 import org.springframework.data.jpa.repository.JpaRepository;

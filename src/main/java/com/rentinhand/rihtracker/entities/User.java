@@ -40,8 +40,6 @@ public class User extends CRUDEntity{
     @OneToMany(mappedBy = "maintainer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Task> maintainedTasks = new LinkedHashSet<>();
 
-
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("timeStart")
     private List<TimeEntry> timeEntries = new ArrayList<>();
