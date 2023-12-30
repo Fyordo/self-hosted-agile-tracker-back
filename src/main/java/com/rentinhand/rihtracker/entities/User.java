@@ -28,6 +28,9 @@ public class User extends CRUDEntity{
     @Column(name = "login", unique = true, nullable = false)
     private String login;
 
+    @Column(name = "username", unique = true, nullable = false)
+    private String username;
+
     @Column(name = "password", nullable = false)
     private String password;
 

@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user, UserUpdateRequest userData) {
+        user.setUsername(userData.getUsername());
         user.setLogin(userData.getLogin());
         user.setAvatar(userData.getAvatar());
         userRepository.save(user);
