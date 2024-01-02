@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/profile")
-public class ProfileController {
+public class ProfileController extends BaseController{
     private UserService userService;
 
     @GetMapping("/{userId}")
