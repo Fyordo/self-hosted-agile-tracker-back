@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class BaseControllerAdvice {
     @ExceptionHandler(ModelNotFoundException.class)
-    public ResponseEntity<?> handleNotFound(ModelNotFoundException exception){
+    public ResponseEntity<?> handleNotFound(){
         return ResponseEntity.notFound().build();
     }
 
