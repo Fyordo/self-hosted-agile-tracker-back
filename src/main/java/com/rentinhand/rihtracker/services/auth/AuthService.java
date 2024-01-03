@@ -3,6 +3,7 @@ package com.rentinhand.rihtracker.services.auth;
 import com.rentinhand.rihtracker.dto.requests.auth.AuthEmailRequest;
 import com.rentinhand.rihtracker.dto.requests.user.UserCreateRequest;
 import com.rentinhand.rihtracker.dto.responses.auth.AuthResponse;
+import com.rentinhand.rihtracker.exceptions.WrongCredentialsException;
 import com.rentinhand.rihtracker.utilities.Role;
 import com.rentinhand.rihtracker.entities.User;
 import com.rentinhand.rihtracker.repos.TokenRepository;
@@ -48,7 +49,7 @@ public class AuthService {
                 )
         );
         var user = repository.findByLogin(request.getLogin())
-                .orElseThrow();
+                .orElseThrow(WrongCredentialsException::new);
         var jwtToken = jwtService.generateToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
