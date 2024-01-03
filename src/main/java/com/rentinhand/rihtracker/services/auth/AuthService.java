@@ -1,8 +1,8 @@
 package com.rentinhand.rihtracker.services.auth;
 
-import com.rentinhand.rihtracker.dto.requests.user.AuthEmailRequest;
+import com.rentinhand.rihtracker.dto.requests.auth.AuthEmailRequest;
 import com.rentinhand.rihtracker.dto.requests.user.UserCreateRequest;
-import com.rentinhand.rihtracker.dto.responses.user.AuthResponse;
+import com.rentinhand.rihtracker.dto.responses.auth.AuthResponse;
 import com.rentinhand.rihtracker.utilities.Role;
 import com.rentinhand.rihtracker.entities.User;
 import com.rentinhand.rihtracker.repos.TokenRepository;

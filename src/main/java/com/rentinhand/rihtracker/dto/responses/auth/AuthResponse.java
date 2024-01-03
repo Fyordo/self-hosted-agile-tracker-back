@@ -1,4 +1,4 @@
-package com.rentinhand.rihtracker.dto.responses.user;
+package com.rentinhand.rihtracker.dto.responses.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

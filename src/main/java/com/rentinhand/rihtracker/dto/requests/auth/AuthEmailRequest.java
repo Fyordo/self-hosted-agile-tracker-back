@@ -1,4 +1,4 @@
-package com.rentinhand.rihtracker.dto.requests.user;
+package com.rentinhand.rihtracker.dto.requests.auth;
 
 
 import jakarta.validation.constraints.Email;
