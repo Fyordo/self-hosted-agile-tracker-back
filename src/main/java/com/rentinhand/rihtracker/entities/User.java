@@ -1,5 +1,6 @@
 package com.rentinhand.rihtracker.entities;
 
+import com.rentinhand.rihtracker.utilities.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.Accessors;

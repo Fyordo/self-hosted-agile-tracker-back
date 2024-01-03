@@ -8,6 +8,6 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-@PreAuthorize("hasRole(T(com.example.alice.models.users.Role).USER)")
+@PreAuthorize("hasRole(T(Role).USER)")
 public @interface UserAuth {
 }

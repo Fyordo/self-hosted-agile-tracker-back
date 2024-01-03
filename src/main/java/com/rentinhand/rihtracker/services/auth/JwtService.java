@@ -14,10 +14,10 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    private final String Secret;
+    private final String secret;
 
     public JwtService(@Value("${jwt.secret}") String secret) {
-        Secret = secret;
+        this.secret = secret;
     }
 
     public String extractUsername(String token) {
@@ -43,7 +43,7 @@ public class JwtService {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 600))
-                .signWith(SignatureAlgorithm.HS256, Secret)
+                .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }
 
@@ -61,6 +61,6 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(Secret).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 }

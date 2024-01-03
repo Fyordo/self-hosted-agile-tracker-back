@@ -1,7 +1,7 @@
 package com.rentinhand.rihtracker.configs;
 
 
-import com.rentinhand.rihtracker.configs.Filters.JwtAuthenticationFilter;
+import com.rentinhand.rihtracker.filters.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +23,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableMethodSecurity
-public class SecurityConfiguration implements WebMvcConfigurer {
+public class SecurityConfig implements WebMvcConfigurer {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;

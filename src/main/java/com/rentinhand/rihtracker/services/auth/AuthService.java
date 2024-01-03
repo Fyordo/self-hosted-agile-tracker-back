@@ -3,7 +3,7 @@ package com.rentinhand.rihtracker.services.auth;
 import com.rentinhand.rihtracker.dto.requests.user.AuthEmailRequest;
 import com.rentinhand.rihtracker.dto.requests.user.UserCreateRequest;
 import com.rentinhand.rihtracker.dto.responses.user.AuthResponse;
-import com.rentinhand.rihtracker.entities.Role;
+import com.rentinhand.rihtracker.utilities.Role;
 import com.rentinhand.rihtracker.entities.User;
 import com.rentinhand.rihtracker.repos.TokenRepository;
 import com.rentinhand.rihtracker.repos.UserRepository;
@@ -14,8 +14,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

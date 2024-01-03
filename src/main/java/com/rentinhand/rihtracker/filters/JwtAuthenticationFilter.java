@@ -1,4 +1,4 @@
-package com.rentinhand.rihtracker.configs.Filters;
+package com.rentinhand.rihtracker.filters;
 
 
 import com.rentinhand.rihtracker.repos.TokenRepository;

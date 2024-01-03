@@ -1,4 +1,4 @@
-package com.rentinhand.rihtracker.entities;
+package com.rentinhand.rihtracker.utilities;
 
 import org.springframework.security.core.GrantedAuthority;
 
