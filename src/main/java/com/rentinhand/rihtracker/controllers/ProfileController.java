@@ -5,6 +5,7 @@ import com.rentinhand.rihtracker.dto.responses.user.UserResponse;
 import com.rentinhand.rihtracker.entities.User;
 import com.rentinhand.rihtracker.exceptions.ModelNotFoundException;
 import com.rentinhand.rihtracker.services.UserService;
+import com.rentinhand.rihtracker.utilities.AuthorityAnnotations.UserAuth;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/profile")
+@UserAuth
 public class ProfileController extends BaseController{
     private UserService userService;
 
