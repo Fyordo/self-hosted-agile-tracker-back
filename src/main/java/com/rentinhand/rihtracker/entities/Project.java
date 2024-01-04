@@ -1,6 +1,5 @@
 package com.rentinhand.rihtracker.entities;
 
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +26,13 @@ public class Project extends CRUDEntity{
 
     @Column(name = "avatar")
     private String avatar;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "created_user_id")
+    private User createdUser;
+
+    @ManyToMany(mappedBy = "projects", cascade = CascadeType.PERSIST)
+    private Set<User> users = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "project", orphanRemoval = true)
     private Set<Task> tasks = new LinkedHashSet<>();

@@ -34,7 +34,6 @@ public class ProjectServiceImpl implements ProjectService {
     public Project updateProject(Project Project, ProjectUpdateRequest ProjectData) {
         Project.setTitle(ProjectData.getTitle());
         Project.setAvatar(ProjectData.getAvatar());
-        Project.setAvatar(ProjectData.getAvatar());
         ProjectRepository.save(Project);
         return Project;
     }
