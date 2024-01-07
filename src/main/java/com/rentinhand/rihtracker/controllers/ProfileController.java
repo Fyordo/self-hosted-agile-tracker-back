@@ -23,7 +23,9 @@ public class ProfileController extends BaseController{
         User user = userService.findById(userId).orElseThrow(ModelNotFoundException::new);
 
         ModelMapper modelMapper = new ModelMapper();
-        return ResponseEntity.ok(modelMapper.map(user, UserResponse.class));
+        UserResponse response = modelMapper.map(user, UserResponse.class);
+        response.setUsername(user.getActualUsername());
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{userId}")
@@ -36,6 +38,8 @@ public class ProfileController extends BaseController{
         user = userService.updateUser(user, request);
 
         ModelMapper modelMapper = new ModelMapper();
-        return ResponseEntity.ok(modelMapper.map(user, UserResponse.class));
+        UserResponse response = modelMapper.map(user, UserResponse.class);
+        response.setUsername(user.getActualUsername());
+        return ResponseEntity.ok(response);
     }
 }

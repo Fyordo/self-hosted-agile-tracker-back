@@ -70,6 +70,10 @@ public class User extends CRUDEntity implements UserDetails {
         return login;
     }
 
+    public String getActualUsername() {
+        return username;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
