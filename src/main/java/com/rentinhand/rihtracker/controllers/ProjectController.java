@@ -13,6 +13,7 @@ import com.rentinhand.rihtracker.exceptions.ModelNotFoundException;
 import com.rentinhand.rihtracker.services.ProjectService;
 import com.rentinhand.rihtracker.services.UserService;
 import com.rentinhand.rihtracker.utilities.AuthorityAnnotations.UserAuth;
+import com.rentinhand.rihtracker.utilities.SecurityWorkspace;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -85,6 +86,18 @@ public class ProjectController extends BaseController{
         if (existingTask.isPresent()) {
             Project updatedProject = projectService.addUser(userId, existingTask.get());
             return new ResponseEntity<>(new ProjectResponse(updatedProject), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("{projectId}/tasks")
+    public ResponseEntity<List<TaskResponse>> getProjectTasks(@PathVariable Long projectId) {
+        Optional<Project> project = projectService.findById(projectId);
+        if (project.isPresent() && project.get().haveAccess(SecurityWorkspace.getAuthUser())) {
+            List<TaskResponse> projectResponses = project.get().getTasks().stream().map(TaskResponse::new)
+                    .collect(Collectors.toList());
+            return new ResponseEntity<>(projectResponses, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

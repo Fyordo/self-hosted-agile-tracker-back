@@ -60,4 +60,7 @@ public class Task extends CRUDEntity{
     @ManyToMany(mappedBy = "tasks", cascade = CascadeType.PERSIST)
     private Set<User> users = new LinkedHashSet<>();
 
+    public boolean haveAccess(User user) {
+        return project.haveAccess(user);
+    }
 }

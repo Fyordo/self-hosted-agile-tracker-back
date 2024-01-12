@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -27,7 +28,7 @@ public class Project extends CRUDEntity{
     @Column(name = "avatar")
     private String avatar;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "created_user_id")
     private User createdUser;
 
@@ -37,4 +38,7 @@ public class Project extends CRUDEntity{
     @OneToMany(mappedBy = "project", orphanRemoval = true)
     private Set<Task> tasks = new LinkedHashSet<>();
 
+    public boolean haveAccess( User user){
+        return this.getUsers().contains(user) || Objects.equals(this.getCreatedUser().getId(), user.getId());
+    }
 }

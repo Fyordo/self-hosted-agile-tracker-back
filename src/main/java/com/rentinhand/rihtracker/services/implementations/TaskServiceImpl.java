@@ -2,10 +2,7 @@ package com.rentinhand.rihtracker.services.implementations;
 
 import com.rentinhand.rihtracker.dto.requests.task.TaskCreateRequest;
 import com.rentinhand.rihtracker.dto.requests.task.TaskUpdateRequest;
-import com.rentinhand.rihtracker.entities.ScrumColumn;
-import com.rentinhand.rihtracker.entities.Task;
-import com.rentinhand.rihtracker.entities.TaskType;
-import com.rentinhand.rihtracker.entities.User;
+import com.rentinhand.rihtracker.entities.*;
 import com.rentinhand.rihtracker.repos.*;
 import com.rentinhand.rihtracker.services.TaskService;
 import com.rentinhand.rihtracker.services.TaskService;
@@ -31,7 +28,8 @@ public class TaskServiceImpl implements TaskService {
     private UserRepository userRepository;
 
     @Override
-    public Optional<Task> findById(Long taskId) {
+    public Optional<Task> findById(Long taskId)
+    {
         return taskRepository.findById(taskId);
     }
 

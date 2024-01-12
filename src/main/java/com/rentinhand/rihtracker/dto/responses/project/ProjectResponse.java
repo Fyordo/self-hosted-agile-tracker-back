@@ -1,6 +1,8 @@
 package com.rentinhand.rihtracker.dto.responses.project;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.rentinhand.rihtracker.dto.requests.task.TaskDataRequest;
+import com.rentinhand.rihtracker.dto.task.TaskDto;
 import com.rentinhand.rihtracker.dto.user.UserDto;
 import com.rentinhand.rihtracker.entities.Project;
 import com.rentinhand.rihtracker.entities.User;
@@ -22,17 +24,22 @@ public class ProjectResponse {
 
     private String avatar;
 
-    private User createdUser;
+    private UserDto createdUser;
 
     private List<UserDto> users;
 
+    private List<TaskDto> tasks;
 
     public ProjectResponse(Project project) {
         this.id = project.getId();
         this.title = project.getTitle();
         this.avatar = project.getAvatar();
-        this.createdUser = project.getCreatedUser();
+        this.createdUser = new UserDto(project.getCreatedUser());
         this.users = project.getUsers().stream()
                 .map(UserDto::new)
-                .collect(Collectors.toList());;    }
+                .collect(Collectors.toList());
+        this.tasks = project.getTasks().stream()
+                .map(TaskDto::new)
+                .collect(Collectors.toList());
+    }
 }

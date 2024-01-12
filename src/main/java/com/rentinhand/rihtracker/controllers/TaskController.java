@@ -6,6 +6,7 @@ import com.rentinhand.rihtracker.dto.responses.task.TaskResponse;
 import com.rentinhand.rihtracker.entities.Task;
 import com.rentinhand.rihtracker.services.TaskService;
 import com.rentinhand.rihtracker.utilities.AuthorityAnnotations.UserAuth;
+import com.rentinhand.rihtracker.utilities.SecurityWorkspace;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,8 +27,11 @@ public class TaskController extends BaseController{
     @GetMapping("/{taskId}")
     public ResponseEntity<TaskResponse> getTaskById(@PathVariable Long taskId) {
         Optional<Task> task = taskService.findById(taskId);
-        return task.map(value -> new ResponseEntity<>(new TaskResponse(value), HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        if (task.isPresent() && task.get().haveAccess(SecurityWorkspace.getAuthUser())) {
+            return new ResponseEntity<>(new TaskResponse(task.get()), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 
