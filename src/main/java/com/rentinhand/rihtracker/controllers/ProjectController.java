@@ -37,18 +37,18 @@ public class ProjectController extends BaseController{
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<ProjectResponse>> getAllProjects() {
-//        List<Project> allProjects = projectService.findAll();
-//        if (!allProjects.isEmpty()) {
-//            List<ProjectResponse> projectResponses = allProjects.stream()
-//                    .map(ProjectResponse::new)
-//                    .collect(Collectors.toList());
-//            return new ResponseEntity<>(projectResponses, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
+    @GetMapping
+    public ResponseEntity<List<ProjectResponse>> getAllProjects() {
+        List<Project> allProjects = projectService.findAll();
+        if (!allProjects.isEmpty()) {
+            List<ProjectResponse> projectResponses = allProjects.stream()
+                    .map(ProjectResponse::new)
+                    .collect(Collectors.toList());
+            return new ResponseEntity<>(projectResponses, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     @PostMapping
     public ResponseEntity<ProjectResponse> createProject(@RequestBody ProjectCreateRequest projectCreateRequest) {

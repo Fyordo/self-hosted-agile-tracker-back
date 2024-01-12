@@ -3,12 +3,14 @@ package com.rentinhand.rihtracker.services.implementations;
 import com.rentinhand.rihtracker.dto.requests.project.ProjectCreateRequest;
 import com.rentinhand.rihtracker.dto.requests.project.ProjectUpdateRequest;
 import com.rentinhand.rihtracker.entities.Project;
+import com.rentinhand.rihtracker.entities.Task;
 import com.rentinhand.rihtracker.repos.ProjectRepository;
 import com.rentinhand.rihtracker.services.ProjectService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +21,10 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Optional<Project> findById(Long projectId) {
         return projectRepository.findById(projectId);
+    }
+
+    public List<Project> findAll() {
+        return projectRepository.findAll();
     }
 
     @Override

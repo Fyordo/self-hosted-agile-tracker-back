@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface TaskService {
     Optional<Task> findById(Long taskId);
-    public List<Task> findAll();
+    List<Task> findAll();
         Task createTask(TaskCreateRequest taskData);
     Task updateTask(Task task, TaskUpdateRequest taskData);
     boolean deleteTask(Task task);

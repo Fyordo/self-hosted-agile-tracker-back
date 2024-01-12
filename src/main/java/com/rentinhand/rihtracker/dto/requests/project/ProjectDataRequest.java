@@ -9,5 +9,5 @@ public abstract class ProjectDataRequest {
     private String title;
     private String avatar;
     private Long createdUserId;
-    private Set<Long> usersId;
+    private Set<Long> userIds;
 }
