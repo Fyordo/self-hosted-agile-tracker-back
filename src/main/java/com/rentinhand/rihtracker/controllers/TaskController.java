@@ -12,7 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
@@ -26,6 +28,20 @@ public class TaskController extends BaseController{
         Optional<Task> task = taskService.findById(taskId);
         return task.map(value -> new ResponseEntity<>(new TaskResponse(value), HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+
+    @GetMapping
+    public ResponseEntity<List<TaskResponse>> getAllTasks() {
+        List<Task> allTasks = taskService.findAll();
+        if (!allTasks.isEmpty()) {
+            List<TaskResponse> taskResponses = allTasks.stream()
+                    .map(TaskResponse::new)
+                    .collect(Collectors.toList());
+            return new ResponseEntity<>(taskResponses, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping

@@ -35,6 +35,9 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findById(taskId);
     }
 
+    public List<Task> findAll() {
+        return taskRepository.findAll();
+    }
     @Override
     @Transactional
     public Task createTask(TaskCreateRequest taskData) {
