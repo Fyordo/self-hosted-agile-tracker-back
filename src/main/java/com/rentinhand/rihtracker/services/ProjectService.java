@@ -12,6 +12,7 @@ public interface ProjectService {
     Optional<Project> findById(Long projectId);
     public List<Project> findAll();
     Project createProject(ProjectCreateRequest projectData);
+    Project addUser(Long userId, Project project);
     Project updateProject(Project project, ProjectUpdateRequest projectData);
     boolean deleteProject(Project project);
 }

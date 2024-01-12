@@ -78,4 +78,16 @@ public class ProjectController extends BaseController{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @PostMapping("{projectId}/add/user/{userId}")
+    public ResponseEntity<ProjectResponse> addUserToProject(@PathVariable Long projectId, @PathVariable Long userId) {
+        Optional<Project> existingTask = projectService.findById(projectId);
+        if (existingTask.isPresent()) {
+            Project updatedProject = projectService.addUser(userId, existingTask.get());
+            return new ResponseEntity<>(new ProjectResponse(updatedProject), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

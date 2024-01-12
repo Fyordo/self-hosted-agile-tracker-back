@@ -73,7 +73,7 @@ public class TaskServiceImpl implements TaskService {
 
     public Task addUser(Long userId, Task task) {
         Set<User> users = task.getUsers();
-        users.add(userRepository.findById(userId).get());
+        userRepository.findById(userId).ifPresent(users::add);
         taskRepository.save(task);
         return task;
     }
