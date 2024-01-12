@@ -44,8 +44,15 @@ public class TaskServiceImpl implements TaskService {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         Task task = modelMapper.map(taskData, Task.class);
-        User user = SecurityWorkspace.getAuthUser();
-        task.setCreatedUser(user);
+        task.setCreatedUser(SecurityWorkspace.getAuthUser());
+        setProject(taskData.getProjectId(), task);
+        setTaskType(taskData.getTaskTypeId(), task);
+        if(taskData.getMaintainerId() != null){
+            setMaintainer(taskData.getMaintainerId(), task);
+        }else{
+            setMaintainer(task.getCreatedUser().getId(), task);
+        }
+//        setScrumColumn(taskData.getScrumColumnId(), task);
         taskRepository.save(task);
 
         return task;
@@ -56,6 +63,17 @@ public class TaskServiceImpl implements TaskService {
         task.setTitle(taskData.getTitle());
         task.setDescription(taskData.getDescription());
         task.setDeadline(taskData.getDeadline());
+        setProject(taskData.getProjectId(), task);
+        setTaskType(taskData.getTaskTypeId(), task);
+        setMaintainer(taskData.getMaintainerId(), task);
+
+        taskRepository.save(task);
+        return task;
+    }
+
+    public Task addUser(Long userId, Task task) {
+        Set<User> users = task.getUsers();
+        users.add(userRepository.findById(userId).get());
         taskRepository.save(task);
         return task;
     }

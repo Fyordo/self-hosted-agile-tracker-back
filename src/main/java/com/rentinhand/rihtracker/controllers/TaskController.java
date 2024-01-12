@@ -72,4 +72,17 @@ public class TaskController extends BaseController{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @PostMapping("{taskId}/add/user/{userId}")
+    public ResponseEntity<TaskResponse> addUserToTask(@PathVariable Long taskId, @PathVariable Long userId) {
+        Optional<Task> existingTask = taskService.findById(taskId);
+        if (existingTask.isPresent()) {
+            Task updatedTask = taskService.addUser(userId, existingTask.get());
+            return new ResponseEntity<>(new TaskResponse(updatedTask), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
 }

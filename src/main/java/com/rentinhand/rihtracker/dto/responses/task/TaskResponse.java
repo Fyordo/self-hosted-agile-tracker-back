@@ -1,6 +1,8 @@
 package com.rentinhand.rihtracker.dto.responses.task;
 
+import com.rentinhand.rihtracker.dto.project.ProjectShortDto;
 import com.rentinhand.rihtracker.dto.responses.user.UserResponse;
+import com.rentinhand.rihtracker.dto.taskType.TaskTypeShortDto;
 import com.rentinhand.rihtracker.dto.user.UserDto;
 import com.rentinhand.rihtracker.entities.*;
 import lombok.AllArgsConstructor;
@@ -11,6 +13,7 @@ import org.hibernate.Hibernate;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -22,7 +25,7 @@ public class TaskResponse {
 
     private UserDto createdUser;
 
-    private Set<User> users;
+    private List<UserDto> users;
 
     private String description;
 
@@ -30,25 +33,27 @@ public class TaskResponse {
 
     private List<TimeEntry> timeEntries;
 
-    private TaskType taskType;
+    private TaskTypeShortDto taskType;
 
-    private Project project;
+    private ProjectShortDto project;
 
     private ScrumColumn scrumColumn;
 
-    private User maintainer;
+    private UserDto maintainer;
 
     public TaskResponse(Task task) {
         this.id = task.getId();
         this.title = task.getTitle();
         this.createdUser = new UserDto(task.getCreatedUser());
-        this.users = task.getUsers();
+        this.users = task.getUsers().stream()
+                .map(UserDto::new)
+                .collect(Collectors.toList());;
         this.description = task.getDescription();
         this.deadline = task.getDeadline();
         this.timeEntries = task.getTimeEntries();
-        this.taskType = task.getTaskType();
-        this.project = task.getProject();
+        this.taskType = new TaskTypeShortDto(task.getTaskType());
+        this.project = new ProjectShortDto(task.getProject());
         this.scrumColumn = task.getScrumColumn();
-        this.maintainer = task.getMaintainer();
+        this.maintainer = new UserDto(task.getMaintainer());
     }
 }
