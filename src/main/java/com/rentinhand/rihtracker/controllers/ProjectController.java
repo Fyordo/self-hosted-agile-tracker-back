@@ -3,8 +3,11 @@ package com.rentinhand.rihtracker.controllers;
 import com.rentinhand.rihtracker.dto.requests.project.ProjectCreateRequest;
 import com.rentinhand.rihtracker.dto.requests.project.ProjectUpdateRequest;
 import com.rentinhand.rihtracker.dto.requests.user.UserUpdateRequest;
+import com.rentinhand.rihtracker.dto.responses.project.ProjectResponse;
+import com.rentinhand.rihtracker.dto.responses.task.TaskResponse;
 import com.rentinhand.rihtracker.dto.responses.user.UserResponse;
 import com.rentinhand.rihtracker.entities.Project;
+import com.rentinhand.rihtracker.entities.Task;
 import com.rentinhand.rihtracker.entities.User;
 import com.rentinhand.rihtracker.exceptions.ModelNotFoundException;
 import com.rentinhand.rihtracker.services.ProjectService;
@@ -16,7 +19,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
@@ -26,25 +31,38 @@ public class ProjectController extends BaseController{
     private final ProjectService projectService;
 
     @GetMapping("/{projectId}")
-    public ResponseEntity<Project> getProjectById(@PathVariable Long projectId) {
+    public ResponseEntity<ProjectResponse> getProjectById(@PathVariable Long projectId) {
         Optional<Project> project = projectService.findById(projectId);
-        return project.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+        return project.map(value -> new ResponseEntity<>(new ProjectResponse(value), HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+//    @GetMapping
+//    public ResponseEntity<List<ProjectResponse>> getAllProjects() {
+//        List<Project> allProjects = projectService.findAll();
+//        if (!allProjects.isEmpty()) {
+//            List<ProjectResponse> projectResponses = allProjects.stream()
+//                    .map(ProjectResponse::new)
+//                    .collect(Collectors.toList());
+//            return new ResponseEntity<>(projectResponses, HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
+
     @PostMapping
-    public ResponseEntity<Project> createProject(@RequestBody ProjectCreateRequest projectCreateRequest) {
+    public ResponseEntity<ProjectResponse> createProject(@RequestBody ProjectCreateRequest projectCreateRequest) {
         Project createdProject = projectService.createProject(projectCreateRequest);
-        return new ResponseEntity<>(createdProject, HttpStatus.CREATED);
+        return new ResponseEntity<>(new ProjectResponse(createdProject), HttpStatus.CREATED);
     }
 
     @PutMapping("/{projectId}")
-    public ResponseEntity<Project> updateProject(@PathVariable Long projectId,
+    public ResponseEntity<ProjectResponse> updateProject(@PathVariable Long projectId,
                                                  @RequestBody ProjectUpdateRequest projectUpdateRequest) {
         Optional<Project> existingProject = projectService.findById(projectId);
         if (existingProject.isPresent()) {
             Project updatedProject = projectService.updateProject(existingProject.get(), projectUpdateRequest);
-            return new ResponseEntity<>(updatedProject, HttpStatus.OK);
+            return new ResponseEntity<>(new ProjectResponse(updatedProject), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
