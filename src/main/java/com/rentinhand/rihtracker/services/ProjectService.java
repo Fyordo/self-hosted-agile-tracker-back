@@ -7,8 +7,8 @@ import com.rentinhand.rihtracker.entities.Project;
 import java.util.Optional;
 
 public interface ProjectService {
-    public Optional<Project> findById(Long ProjectId);
-    public Project createProject(ProjectCreateRequest ProjectData);
-    public Project updateProject(Project Project, ProjectUpdateRequest ProjectData);
-    public boolean deleteProject(Project Project);
+    Optional<Project> findById(Long projectId);
+    Project createProject(ProjectCreateRequest projectData);
+    Project updateProject(Project project, ProjectUpdateRequest projectData);
+    boolean deleteProject(Project project);
 }

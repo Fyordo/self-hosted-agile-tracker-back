@@ -1,6 +1,5 @@
 package com.rentinhand.rihtracker.services.implementations;
 
-
 import com.rentinhand.rihtracker.dto.requests.project.ProjectCreateRequest;
 import com.rentinhand.rihtracker.dto.requests.project.ProjectUpdateRequest;
 import com.rentinhand.rihtracker.entities.Project;
@@ -15,32 +14,32 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class ProjectServiceImpl implements ProjectService {
-    private ProjectRepository ProjectRepository;
+    private ProjectRepository projectRepository;
 
     @Override
-    public Optional<Project> findById(Long ProjectId) {
-        return ProjectRepository.findById(ProjectId);
+    public Optional<Project> findById(Long projectId) {
+        return projectRepository.findById(projectId);
     }
 
     @Override
-    public Project createProject(ProjectCreateRequest ProjectData) {
+    public Project createProject(ProjectCreateRequest projectData) {
         ModelMapper modelMapper = new ModelMapper();
-        Project Project = modelMapper.map(ProjectData, Project.class);
-        ProjectRepository.save(Project);
-        return Project;
+        Project project = modelMapper.map(projectData, Project.class);
+        projectRepository.save(project);
+        return project;
     }
 
     @Override
-    public Project updateProject(Project Project, ProjectUpdateRequest ProjectData) {
-        Project.setTitle(ProjectData.getTitle());
-        Project.setAvatar(ProjectData.getAvatar());
-        ProjectRepository.save(Project);
-        return Project;
+    public Project updateProject(Project project, ProjectUpdateRequest projectData) {
+        project.setTitle(projectData.getTitle());
+        project.setAvatar(projectData.getAvatar());
+        projectRepository.save(project);
+        return project;
     }
 
     @Override
-    public boolean deleteProject(Project Project) {
-        ProjectRepository.delete(Project);
+    public boolean deleteProject(Project project) {
+        projectRepository.delete(project);
         return false;
     }
 }
