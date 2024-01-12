@@ -7,7 +7,5 @@ import java.util.Set;
 @Data
 public abstract class TaskTypeDataRequest {
     private String title;
-    private String avatar;
-    private Long createdUserId;
-    private Set<Long> usersId;
+    private String color;
 }

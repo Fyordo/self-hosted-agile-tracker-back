@@ -1,5 +1,6 @@
 package com.rentinhand.rihtracker.dto.responses.task.taskType;
 
+import com.rentinhand.rihtracker.entities.TaskType;
 import com.rentinhand.rihtracker.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,9 +16,11 @@ public class TaskTypeResponse {
 
     private String title;
 
-    private String avatar;
+    private String color;
 
-    private User createdUser;
-
-    private Set<User> users;
+    public TaskTypeResponse(TaskType taskType) {
+        this.id = taskType.getId();
+        this.title = taskType.getTitle();
+        this.color = taskType.getColor();
+    }
 }
