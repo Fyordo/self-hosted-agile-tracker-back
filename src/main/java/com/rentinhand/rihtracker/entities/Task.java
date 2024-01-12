@@ -45,7 +45,7 @@ public class Task extends CRUDEntity{
     @JoinColumn(name = "column_id")
     private ScrumColumn scrumColumn;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "created_user_id")
     private User createdUser;
 
