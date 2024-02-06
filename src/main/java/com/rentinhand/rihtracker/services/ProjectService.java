@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProjectService {
-    List<Project> getUserProjects(User user);
     Optional<Project> findById(Long projectId);
     Project createProject(ProjectDataRequest projectData);
     Project updateProject(Project project, ProjectDataRequest projectData);

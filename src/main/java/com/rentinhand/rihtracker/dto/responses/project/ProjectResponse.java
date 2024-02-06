@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProjectResponse {
-    private Long id;
-    private String title;
-    private String avatar;
+    protected Long id;
+    protected String title;
+    protected String avatar;
 }

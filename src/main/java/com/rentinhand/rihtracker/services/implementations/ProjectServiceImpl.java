@@ -2,12 +2,14 @@ package com.rentinhand.rihtracker.services.implementations;
 
 import com.rentinhand.rihtracker.dto.requests.project.ProjectDataRequest;
 import com.rentinhand.rihtracker.entities.Project;
+import com.rentinhand.rihtracker.entities.User;
 import com.rentinhand.rihtracker.repos.ProjectRepository;
 import com.rentinhand.rihtracker.services.ProjectService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service

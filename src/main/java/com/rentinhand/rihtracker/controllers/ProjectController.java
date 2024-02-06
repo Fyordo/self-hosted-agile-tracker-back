@@ -3,6 +3,7 @@ package com.rentinhand.rihtracker.controllers;
 import com.rentinhand.rihtracker.dto.requests.project.ProjectDataRequest;
 import com.rentinhand.rihtracker.dto.requests.user.UserUpdateRequest;
 import com.rentinhand.rihtracker.dto.responses.ListResponse;
+import com.rentinhand.rihtracker.dto.responses.project.ProjectDetailResponse;
 import com.rentinhand.rihtracker.dto.responses.project.ProjectResponse;
 import com.rentinhand.rihtracker.dto.responses.user.UserResponse;
 import com.rentinhand.rihtracker.entities.Project;
@@ -26,16 +27,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/project")
 public class ProjectController extends BaseController {
-    private final SecurityWorkspace securityWorkspace;
     private final ProjectService projectService;
     ModelMapper mapper = new ModelMapper();
 
-    @GetMapping("/my")
-    public ResponseEntity<ListResponse<ProjectResponse>> getMyProjects() {
-        return ResponseEntity.ok(
-                new ListResponse<>(projectService.getUserProjects(securityWorkspace.getAuthUser())
-                .stream().map((element) -> mapper.map(element, ProjectResponse.class)).collect(Collectors.toList()))
-        );
+    @GetMapping("/{projectId}")
+    public ResponseEntity<ProjectDetailResponse> getProject(@PathVariable Long projectId){
+        Project result = projectService.findById(projectId).orElseThrow(ModelNotFoundException::new);
+        return ResponseEntity.ok(mapper.map(result, ProjectDetailResponse.class));
     }
 
     @PostMapping("/")
