@@ -31,7 +31,6 @@ import java.util.stream.Collectors;
 @Authorized
 public class ProjectController extends BaseController {
     private final ProjectService projectService;
-    ModelMapper mapper = new ModelMapper();
 
     @GetMapping("/")
     public ResponseEntity<ListResponse<ProjectResponse>> getProjects(){
