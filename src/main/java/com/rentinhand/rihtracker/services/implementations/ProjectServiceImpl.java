@@ -38,9 +38,12 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project updateProject(Project project, ProjectDataRequest projectData) {
-        project.setTitle(projectData.getTitle());
-        project.setAvatar(projectData.getAvatar());
-        return projectRepository.save(project);
+        projectRepository.updateProject(
+                Optional.of(projectData.getTitle()).orElse(project.getTitle()),
+                Optional.of(projectData.getAvatar()).orElse(project.getAvatar()),
+                project.getId()
+        );
+        return project;
     }
 
     @Override
