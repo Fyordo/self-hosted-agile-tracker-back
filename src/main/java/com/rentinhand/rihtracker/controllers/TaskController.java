@@ -5,6 +5,7 @@ import com.rentinhand.rihtracker.dto.responses.scrumColumn.ScrumColumnResponse;
 import com.rentinhand.rihtracker.entities.ScrumColumn;
 import com.rentinhand.rihtracker.exceptions.ModelNotFoundException;
 import com.rentinhand.rihtracker.services.ProjectService;
+import com.rentinhand.rihtracker.services.ScrumColumnService;
 import com.rentinhand.rihtracker.services.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,13 @@ import java.util.List;
 public class TaskController extends BaseController {
     private final ProjectService projectService;
     private final TaskService taskService;
+    private final ScrumColumnService scrumColumnService;
 
     @GetMapping()
-    public ResponseEntity<ListResponse<ScrumColumnResponse>> getTasksWithColumn(
+    public ResponseEntity<ListResponse<ScrumColumnResponse>> getAllColumnsWithTasks(
             @PathVariable Long projectId
     ){
-        List<ScrumColumn> columns = taskService.getProjectTasksByColumns(
+        List<ScrumColumn> columns = scrumColumnService.findAllInProject(
                 projectService.findById(projectId).orElseThrow(ModelNotFoundException::new)
         ).stream().toList();
 

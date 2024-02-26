@@ -20,7 +20,7 @@ import java.util.List;
 public class ProjectController extends BaseController {
     private final ProjectService projectService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<ListResponse<ProjectResponse>> getProjects(){
         List<ProjectResponse> response = projectService.findAll()
                 .stream().map((Project project) -> mapper.map(project, ProjectResponse.class)).toList();
@@ -33,7 +33,7 @@ public class ProjectController extends BaseController {
         return ResponseEntity.ok(mapper.map(result, ProjectDetailResponse.class));
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     @DirectorAuth
     public ResponseEntity<ProjectResponse> createProject(@RequestBody ProjectDataRequest request){
         Project result = projectService.createProject(request);

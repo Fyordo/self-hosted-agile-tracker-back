@@ -3,6 +3,7 @@ package com.rentinhand.rihtracker.controllers;
 import com.rentinhand.rihtracker.exceptions.ModelNotFoundException;
 import com.rentinhand.rihtracker.exceptions.WrongCredentialsException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,5 +18,15 @@ public class BaseControllerAdvice {
     @ExceptionHandler({WrongCredentialsException.class, BadCredentialsException.class})
     public ResponseEntity<?> handleWrongCredentials(){
         return ResponseEntity.badRequest().build();
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<?> handleAccessDenied(){
+        return ResponseEntity.badRequest().build();
+    }
+
+    @ExceptionHandler(Throwable.class)
+    public ResponseEntity<?> handleOtherExceptions(){
+        return ResponseEntity.internalServerError().build();
     }
 }
