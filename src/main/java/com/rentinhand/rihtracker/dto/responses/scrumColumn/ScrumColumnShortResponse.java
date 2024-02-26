@@ -10,6 +10,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ScrumColumnResponse extends ScrumColumnShortResponse {
-    protected List<TaskResponse> tasks;
+public class ScrumColumnShortResponse {
+    protected Long id;
+    protected String title;
+    protected String color;
 }
