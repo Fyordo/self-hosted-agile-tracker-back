@@ -6,6 +6,7 @@ import com.rentinhand.rihtracker.entities.User;
 import com.rentinhand.rihtracker.repos.ProjectRepository;
 import com.rentinhand.rihtracker.services.ProjectService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProjectServiceImpl implements ProjectService {
-    private ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
+    private ModelMapper mapper = new ModelMapper();
 
     @Override
     public List<Project> findAll() {
@@ -29,8 +31,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project createProject(ProjectDataRequest projectData) {
-        ModelMapper modelMapper = new ModelMapper();
-        Project project = modelMapper.map(projectData, Project.class);
+        Project project = mapper.map(projectData, Project.class);
         projectRepository.save(project);
         return project;
     }
@@ -43,8 +44,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public boolean deleteProject(Project project) {
+    public void deleteProject(Project project) {
         projectRepository.delete(project);
-        return false;
     }
 }

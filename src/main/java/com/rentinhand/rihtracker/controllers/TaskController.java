@@ -32,9 +32,9 @@ public class TaskController extends BaseController {
     public ResponseEntity<ListResponse<ScrumColumnResponse>> getTasksWithColumn(
             @PathVariable Long projectId
     ){
-        List<ScrumColumn> columns = taskService.getTasksByColumns(
+        List<ScrumColumn> columns = taskService.getProjectTasksByColumns(
                 projectService.findById(projectId).orElseThrow(ModelNotFoundException::new)
-        );
+        ).stream().toList();
 
         List<ScrumColumnResponse> mappedResult = columns.stream().map((element) -> mapper.map(element, ScrumColumnResponse.class)).toList();
         return ResponseEntity.ok(new ListResponse<>(mappedResult));

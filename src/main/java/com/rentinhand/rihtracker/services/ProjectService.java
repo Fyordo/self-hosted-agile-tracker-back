@@ -12,5 +12,5 @@ public interface ProjectService {
     Optional<Project> findById(Long projectId);
     Project createProject(ProjectDataRequest projectData);
     Project updateProject(Project project, ProjectDataRequest projectData);
-    boolean deleteProject(Project project);
+    void deleteProject(Project project);
 }

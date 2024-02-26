@@ -8,8 +8,11 @@ import com.rentinhand.rihtracker.entities.User;
 import java.util.Optional;
 
 public interface UserService {
-    public Optional<User> findById(Long userId);
-    public User createUser(UserCreateRequest userData);
-    public User updateUser(User user, UserUpdateRequest userData);
-    public boolean deleteUser(User user);
+    Optional<User> findById(Long userId);
+
+    User createUser(UserCreateRequest userData);
+
+    User updateUser(User user, UserUpdateRequest userData);
+
+    void deleteUser(User user);
 }
