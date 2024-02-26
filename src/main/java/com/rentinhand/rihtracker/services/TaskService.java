@@ -24,4 +24,5 @@ public interface TaskService {
     void deleteTask(Task task);
 
     Task addUserToTask(Task task, User user);
+    Task changeTaskColumn(Task task, ScrumColumn scrumColumn);
 }

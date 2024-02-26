@@ -8,6 +8,7 @@ import com.rentinhand.rihtracker.entities.Task;
 import com.rentinhand.rihtracker.entities.User;
 import com.rentinhand.rihtracker.exceptions.ModelNotFoundException;
 import com.rentinhand.rihtracker.repos.TaskRepository;
+import com.rentinhand.rihtracker.services.ScrumColumnService;
 import com.rentinhand.rihtracker.services.TaskService;
 import com.rentinhand.rihtracker.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -77,6 +78,15 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task addUserToTask(Task task, User user) {
         task.getUsers().add(user);
+
+        taskRepository.save(task);
+
+        return task;
+    }
+
+    @Override
+    public Task changeTaskColumn(Task task, ScrumColumn scrumColumn) {
+        task.setScrumColumn(scrumColumn);
 
         taskRepository.save(task);
 
