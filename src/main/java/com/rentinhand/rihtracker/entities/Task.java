@@ -33,23 +33,23 @@ public class Task extends CRUDEntity{
     @Column(name = "deadline")
     private Timestamp deadline;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "task_type_id")
     private TaskType taskType;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "column_id")
     private ScrumColumn scrumColumn;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "created_user_id")
     private User createdUser;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "maintainer_id")
     private User maintainer;
 
-    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "task", cascade = CascadeType.PERSIST, orphanRemoval = true)
     @OrderBy("timeStart")
     private List<TimeEntry> timeEntries = new ArrayList<>();
 

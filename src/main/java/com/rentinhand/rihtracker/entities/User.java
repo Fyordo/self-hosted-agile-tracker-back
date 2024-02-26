@@ -39,17 +39,17 @@ public class User extends CRUDEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "createdUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "createdUser", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private Set<Task> createdTasks = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "maintainer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "maintainer", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private Set<Task> maintainedTasks = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
     @OrderBy("timeStart")
     private List<TimeEntry> timeEntries = new ArrayList<>();
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "user_tasks",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "task_id"))

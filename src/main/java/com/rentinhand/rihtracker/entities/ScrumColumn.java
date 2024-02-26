@@ -27,7 +27,7 @@ public class ScrumColumn extends CRUDEntity{
     @Column(name = "color", length = 7, nullable = false)
     private String color;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "project_id")
     private Project project;
 
