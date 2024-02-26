@@ -54,7 +54,7 @@ public class ProjectController extends BaseController {
 
     @DeleteMapping("/{projectId}")
     @DirectorAuth
-    public ResponseEntity<?> updateProject(@PathVariable Long projectId){
+    public ResponseEntity<?> deleteProject(@PathVariable Long projectId){
         projectService.deleteProject(
                 projectService.findById(projectId).orElseThrow(ModelNotFoundException::new)
         );
