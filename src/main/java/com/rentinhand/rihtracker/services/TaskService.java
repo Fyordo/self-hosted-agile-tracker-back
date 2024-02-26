@@ -13,8 +13,6 @@ import java.util.Optional;
 public interface TaskService {
     Collection<Task> getProjectTasks(Project project);
 
-    Collection<ScrumColumn> getProjectTasksByColumns(Project project);
-
     Optional<Task> findById(Long taskId);
 
     Task createTask(TaskDataRequest taskData);

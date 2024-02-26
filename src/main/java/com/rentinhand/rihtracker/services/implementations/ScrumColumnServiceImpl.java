@@ -2,15 +2,16 @@ package com.rentinhand.rihtracker.services.implementations;
 
 import com.rentinhand.rihtracker.dto.requests.scrumColumn.ScrumColumnDataRequest;
 import com.rentinhand.rihtracker.dto.requests.scrumColumn.ScrumColumnDataRequest;
+import com.rentinhand.rihtracker.entities.Project;
 import com.rentinhand.rihtracker.entities.ScrumColumn;
+import com.rentinhand.rihtracker.entities.Task;
 import com.rentinhand.rihtracker.repos.ScrumColumnRepository;
 import com.rentinhand.rihtracker.services.ScrumColumnService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +22,14 @@ public class ScrumColumnServiceImpl implements ScrumColumnService {
     @Override
     public List<ScrumColumn> findAll() {
         return scrumColumnRepository.findAll();
+    }
+
+    @Override
+    public Collection<ScrumColumn> findAllInProject(Project project) {
+        Set<ScrumColumn> columns = new HashSet<>();
+        project.getTasks().forEach((Task task) -> columns.add(task.getScrumColumn()));
+
+        return columns;
     }
 
     @Override

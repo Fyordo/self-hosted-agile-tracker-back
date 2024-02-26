@@ -31,14 +31,6 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Collection<ScrumColumn> getProjectTasksByColumns(Project project) {
-        Set<ScrumColumn> columns = new HashSet<>();
-        project.getTasks().forEach((Task task) -> columns.add(task.getScrumColumn()));
-
-        return columns;
-    }
-
-    @Override
     public Optional<Task> findById(Long taskId) {
         return taskRepository.findById(taskId);
     }
