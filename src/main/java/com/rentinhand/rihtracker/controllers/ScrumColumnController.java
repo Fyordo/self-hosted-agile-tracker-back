@@ -6,6 +6,7 @@ import com.rentinhand.rihtracker.dto.responses.ListResponse;
 import com.rentinhand.rihtracker.dto.responses.scrumColumn.ScrumColumnResponse;
 import com.rentinhand.rihtracker.dto.responses.scrumColumn.ScrumColumnShortResponse;
 import com.rentinhand.rihtracker.dto.responses.task.TaskResponse;
+import com.rentinhand.rihtracker.dto.responses.task.TaskShortResponse;
 import com.rentinhand.rihtracker.entities.ScrumColumn;
 import com.rentinhand.rihtracker.entities.Task;
 import com.rentinhand.rihtracker.exceptions.ModelNotFoundException;
@@ -63,14 +64,14 @@ public class ScrumColumnController extends BaseController {
     }
 
     @GetMapping("/tasks")
-    public ResponseEntity<ListResponse<TaskResponse>> getColumnTasks(
+    public ResponseEntity<ListResponse<TaskShortResponse>> getColumnTasks(
             @PathVariable Long columnId
     ) {
 
-        List<TaskResponse> columns = scrumColumnService.findById(columnId).orElseThrow(ModelNotFoundException::new)
+        List<TaskShortResponse> columns = scrumColumnService.findById(columnId).orElseThrow(ModelNotFoundException::new)
                 .getTasks()
                 .stream()
-                .map((Task task) -> mapper.map(task, TaskResponse.class))
+                .map((Task task) -> mapper.map(task, TaskShortResponse.class))
                 .toList();
 
         return ResponseEntity.ok(new ListResponse<>(columns));
