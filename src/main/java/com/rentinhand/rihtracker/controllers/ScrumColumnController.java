@@ -22,27 +22,16 @@ public class ScrumColumnController extends BaseController {
     private final ProjectService projectService;
     private final ScrumColumnService scrumColumnService;
 
-    @GetMapping()
-    public ResponseEntity<ListResponse<ScrumColumnShortResponse>> getColumnList(
-            @PathVariable Long projectId
-    ){
-        List<ScrumColumnShortResponse> columns = scrumColumnService.findAllInProject(
-                projectService.findById(projectId).orElseThrow(ModelNotFoundException::new)
-        )
-                .stream()
-                .map((ScrumColumn project) -> mapper.map(project, ScrumColumnShortResponse.class))
-                .toList()
-                ;
-
-        return ResponseEntity.ok(new ListResponse<>(columns));
-    }
-
-    @PostMapping()
-    public ResponseEntity<ScrumColumnShortResponse> addColumnToProject(
+    @PutMapping("/{columnId}")
+    public ResponseEntity<ScrumColumnShortResponse> updateColumnInProject(
             @PathVariable Long projectId,
+            @PathVariable Long columnId,
             @RequestBody ScrumColumnDataRequest columnData
     ){
-        ScrumColumn scrumColumn = scrumColumnService.createScrumColumn(columnData);
+        ScrumColumn scrumColumn = scrumColumnService.updateScrumColumn(
+                scrumColumnService.findById(columnId).orElseThrow(ModelNotFoundException::new),
+                columnData
+        );
 
         return ResponseEntity.ok(mapper.map(scrumColumn, ScrumColumnShortResponse.class));
     }

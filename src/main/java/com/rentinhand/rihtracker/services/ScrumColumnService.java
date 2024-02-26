@@ -15,7 +15,7 @@ public interface ScrumColumnService {
 
     Optional<ScrumColumn> findById(Long scrumColumnId);
 
-    ScrumColumn createScrumColumn(ScrumColumnDataRequest scrumColumnData);
+    ScrumColumn createScrumColumn(ScrumColumnDataRequest scrumColumnData, Project project);
 
     ScrumColumn updateScrumColumn(ScrumColumn scrumColumn, ScrumColumnDataRequest scrumColumnData);
 

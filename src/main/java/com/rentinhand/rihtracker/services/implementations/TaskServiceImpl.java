@@ -27,7 +27,10 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Collection<Task> getProjectTasks(Project project) {
-        return project.getTasks();
+        Set<Task> tasks = new HashSet<>();
+        project.getColumns().forEach((ScrumColumn column) -> tasks.addAll(column.getTasks()));
+
+        return tasks;
     }
 
     @Override

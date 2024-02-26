@@ -26,10 +26,7 @@ public class ScrumColumnServiceImpl implements ScrumColumnService {
 
     @Override
     public Collection<ScrumColumn> findAllInProject(Project project) {
-        Set<ScrumColumn> columns = new HashSet<>();
-        project.getTasks().forEach((Task task) -> columns.add(task.getScrumColumn()));
-
-        return columns;
+        return project.getColumns();
     }
 
     @Override
@@ -38,8 +35,9 @@ public class ScrumColumnServiceImpl implements ScrumColumnService {
     }
 
     @Override
-    public ScrumColumn createScrumColumn(ScrumColumnDataRequest scrumColumnData) {
+    public ScrumColumn createScrumColumn(ScrumColumnDataRequest scrumColumnData, Project project) {
         ScrumColumn scrumColumn = mapper.map(scrumColumnData, ScrumColumn.class);
+        scrumColumn.setProject(project);
         scrumColumnRepository.save(scrumColumn);
         return scrumColumn;
     }

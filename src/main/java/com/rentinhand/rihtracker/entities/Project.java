@@ -29,6 +29,6 @@ public class Project extends CRUDEntity{
     private String avatar;
 
     @OneToMany(mappedBy = "project", orphanRemoval = true)
-    private Set<Task> tasks = new LinkedHashSet<>();
+    private Set<ScrumColumn> columns = new LinkedHashSet<>();
 
 }

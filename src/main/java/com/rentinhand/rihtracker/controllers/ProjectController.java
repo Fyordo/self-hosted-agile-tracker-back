@@ -1,12 +1,17 @@
 package com.rentinhand.rihtracker.controllers;
 
 import com.rentinhand.rihtracker.dto.requests.project.ProjectDataRequest;
+import com.rentinhand.rihtracker.dto.requests.scrumColumn.ScrumColumnDataRequest;
 import com.rentinhand.rihtracker.dto.responses.ListResponse;
 import com.rentinhand.rihtracker.dto.responses.project.ProjectDetailResponse;
 import com.rentinhand.rihtracker.dto.responses.project.ProjectResponse;
+import com.rentinhand.rihtracker.dto.responses.scrumColumn.ScrumColumnShortResponse;
 import com.rentinhand.rihtracker.entities.Project;
+import com.rentinhand.rihtracker.entities.ScrumColumn;
 import com.rentinhand.rihtracker.exceptions.ModelNotFoundException;
 import com.rentinhand.rihtracker.services.ProjectService;
+import com.rentinhand.rihtracker.services.ScrumColumnService;
+import com.rentinhand.rihtracker.services.TaskService;
 import com.rentinhand.rihtracker.utilities.AuthorityAnnotations.DirectorAuth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +24,7 @@ import java.util.List;
 @RequestMapping("/project")
 public class ProjectController extends BaseController {
     private final ProjectService projectService;
+    private final ScrumColumnService scrumColumnService;
 
     @GetMapping("")
     public ResponseEntity<ListResponse<ProjectResponse>> getProjects(){
@@ -57,5 +63,35 @@ public class ProjectController extends BaseController {
                 projectService.findById(projectId).orElseThrow(ModelNotFoundException::new)
         );
         return ResponseEntity.ok(null);
+    }
+
+    // ========== COLUMNS ===========
+
+    @GetMapping("/{projectId}/columns")
+    public ResponseEntity<ListResponse<ScrumColumnShortResponse>> getColumnList(
+            @PathVariable Long projectId
+    ){
+        List<ScrumColumnShortResponse> columns = scrumColumnService.findAllInProject(
+                        projectService.findById(projectId).orElseThrow(ModelNotFoundException::new)
+                )
+                .stream()
+                .map((ScrumColumn project) -> mapper.map(project, ScrumColumnShortResponse.class))
+                .toList()
+                ;
+
+        return ResponseEntity.ok(new ListResponse<>(columns));
+    }
+
+    @PostMapping("/{projectId}/add-column")
+    public ResponseEntity<ScrumColumnShortResponse> addColumnToProject(
+            @PathVariable Long projectId,
+            @RequestBody ScrumColumnDataRequest columnData
+    ){
+        ScrumColumn scrumColumn = scrumColumnService.createScrumColumn(
+                columnData,
+                projectService.findById(projectId).orElseThrow(ModelNotFoundException::new)
+        );
+
+        return ResponseEntity.ok(mapper.map(scrumColumn, ScrumColumnShortResponse.class));
     }
 }

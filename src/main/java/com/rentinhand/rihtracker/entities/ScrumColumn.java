@@ -27,6 +27,10 @@ public class ScrumColumn extends CRUDEntity{
     @Column(name = "color", length = 7, nullable = false)
     private String color;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "project_id")
+    private Project project;
+
     @OneToMany(mappedBy = "scrumColumn", orphanRemoval = true)
     private Set<Task> tasks = new LinkedHashSet<>();
 

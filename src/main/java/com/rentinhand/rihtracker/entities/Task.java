@@ -38,10 +38,6 @@ public class Task extends CRUDEntity{
     private TaskType taskType;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "project_id")
-    private Project project;
-
-    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "column_id")
     private ScrumColumn scrumColumn;
 
