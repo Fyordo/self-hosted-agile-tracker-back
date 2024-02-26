@@ -1,7 +1,8 @@
 package com.rentinhand.rihtracker.services.implementations;
 
 import com.rentinhand.rihtracker.dto.TaskDTO;
-import com.rentinhand.rihtracker.dto.requests.task.TaskDataRequest;
+import com.rentinhand.rihtracker.dto.requests.task.TaskCreateRequest;
+import com.rentinhand.rihtracker.dto.requests.task.TaskUpdateRequest;
 import com.rentinhand.rihtracker.entities.Project;
 import com.rentinhand.rihtracker.entities.ScrumColumn;
 import com.rentinhand.rihtracker.entities.Task;
@@ -10,7 +11,9 @@ import com.rentinhand.rihtracker.exceptions.ModelNotFoundException;
 import com.rentinhand.rihtracker.repos.TaskRepository;
 import com.rentinhand.rihtracker.services.ScrumColumnService;
 import com.rentinhand.rihtracker.services.TaskService;
+import com.rentinhand.rihtracker.services.TaskTypeService;
 import com.rentinhand.rihtracker.services.UserService;
+import com.rentinhand.rihtracker.services.auth.SecurityWorkspace;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -20,9 +23,12 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
+    private final SecurityWorkspace securityWorkspace;
+
     private final TaskRepository taskRepository;
     private final ScrumColumnService scrumColumnService;
     private final UserService userService;
+    private final TaskTypeService taskTypeService;
     private ModelMapper mapper = new ModelMapper();
 
     @Override
@@ -39,17 +45,17 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task createTask(TaskDataRequest taskData) {
-        TaskDTO taskDTO = taskDataToDTO(taskData);
-
-        Task task = mapper.map(taskDTO, Task.class);
+    public Task createTask(TaskCreateRequest taskData, ScrumColumn scrumColumn) {
+        Task task = mapper.map(taskData, Task.class);
+        task.setScrumColumn(scrumColumn);
+        task.setCreatedUser(securityWorkspace.getAuthUser());
         taskRepository.save(task);
 
         return task;
     }
 
     @Override
-    public Task updateTask(Task task, TaskDataRequest taskData) {
+    public Task updateTask(Task task, TaskUpdateRequest taskData) {
         TaskDTO taskDTO = taskDataToDTO(taskData);
 
         taskRepository.updateTask(
@@ -88,13 +94,12 @@ public class TaskServiceImpl implements TaskService {
         return task;
     }
 
-    private TaskDTO taskDataToDTO(TaskDataRequest taskData){
+    private TaskDTO taskDataToDTO(TaskUpdateRequest taskData){
         TaskDTO taskDTO = new TaskDTO();
         taskDTO.setTitle(taskData.getTitle());
         taskDTO.setDescription(taskData.getDescription());
         taskDTO.setDeadline(taskData.getDeadline());
-        taskDTO.setTaskType(taskData.getTaskType());
-        taskDTO.setScrumColumn(scrumColumnService.findById(taskData.getScrumColumnId()).orElseThrow(ModelNotFoundException::new));
+        taskDTO.setTaskType(taskTypeService.findById(taskData.getTaskTypeId()).orElseThrow(ModelNotFoundException::new));
         taskDTO.setMaintainer(userService.findById(taskData.getMaintainerUserId()).orElseThrow(ModelNotFoundException::new));
         taskDTO.setCreatedUser(userService.findById(taskData.getCreatedUserId()).orElseThrow(ModelNotFoundException::new));
 

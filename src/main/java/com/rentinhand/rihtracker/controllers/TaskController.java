@@ -17,21 +17,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/project/{projectId}/task")
+@RequestMapping("/task")
 public class TaskController extends BaseController {
-    private final ProjectService projectService;
-    private final ScrumColumnService scrumColumnService;
     private final TaskService taskService;
-
-    @GetMapping()
-    public ResponseEntity<ListResponse<ScrumColumnResponse>> getAllColumnsWithTasks(
-            @PathVariable Long projectId
-    ){
-        List<ScrumColumnResponse> columns = scrumColumnService.findAllInProject(
-                projectService.findById(projectId).orElseThrow(ModelNotFoundException::new)
-        ).stream().map((ScrumColumn project) -> mapper.map(project, ScrumColumnResponse.class)).toList();
-
-        List<ScrumColumnResponse> mappedResult = columns.stream().map((element) -> mapper.map(element, ScrumColumnResponse.class)).toList();
-        return ResponseEntity.ok(new ListResponse<>(mappedResult));
-    }
 }
