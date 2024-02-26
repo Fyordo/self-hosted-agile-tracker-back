@@ -9,6 +9,7 @@ import com.rentinhand.rihtracker.exceptions.ModelNotFoundException;
 import com.rentinhand.rihtracker.services.ProjectService;
 import com.rentinhand.rihtracker.services.ScrumColumnService;
 import com.rentinhand.rihtracker.services.TaskService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 @RequestMapping("/task")
 public class TaskController extends BaseController {
     private final TaskService taskService;

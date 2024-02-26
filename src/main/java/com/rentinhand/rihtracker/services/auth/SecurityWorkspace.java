@@ -18,7 +18,7 @@ public class SecurityWorkspace {
     }
 
     public Long getAuthUserId(){
-        Claims claims = (Claims) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return Long.getLong(claims.get("sub", String.class));
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getId();
     }
 }

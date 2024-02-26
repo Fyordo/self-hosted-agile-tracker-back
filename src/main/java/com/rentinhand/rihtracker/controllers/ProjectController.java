@@ -13,6 +13,7 @@ import com.rentinhand.rihtracker.services.ProjectService;
 import com.rentinhand.rihtracker.services.ScrumColumnService;
 import com.rentinhand.rihtracker.services.TaskService;
 import com.rentinhand.rihtracker.utilities.AuthorityAnnotations.DirectorAuth;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 @RequestMapping("/project")
 public class ProjectController extends BaseController {
     private final ProjectService projectService;

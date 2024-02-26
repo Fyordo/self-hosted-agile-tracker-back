@@ -13,6 +13,7 @@ import com.rentinhand.rihtracker.services.ScrumColumnService;
 import com.rentinhand.rihtracker.services.TaskService;
 import com.rentinhand.rihtracker.utilities.AuthorityAnnotations.DirectorAuth;
 import com.rentinhand.rihtracker.utilities.AuthorityAnnotations.NonUserAuth;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 @RequestMapping("/column/{columnId}")
 @DirectorAuth
 public class ScrumColumnController extends BaseController {
@@ -80,7 +81,6 @@ public class ScrumColumnController extends BaseController {
             @PathVariable Long columnId,
             @RequestBody TaskCreateRequest request
     ) {
-
         Task task = taskService.createTask(
                 request,
                 scrumColumnService.findById(columnId).orElseThrow(ModelNotFoundException::new)
