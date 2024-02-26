@@ -7,7 +7,6 @@ import com.rentinhand.rihtracker.dto.responses.project.ProjectResponse;
 import com.rentinhand.rihtracker.entities.Project;
 import com.rentinhand.rihtracker.exceptions.ModelNotFoundException;
 import com.rentinhand.rihtracker.services.ProjectService;
-import com.rentinhand.rihtracker.utilities.AuthorityAnnotations.Authorized;
 import com.rentinhand.rihtracker.utilities.AuthorityAnnotations.DirectorAuth;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/project")
-@Authorized
 public class ProjectController extends BaseController {
     private final ProjectService projectService;
 
