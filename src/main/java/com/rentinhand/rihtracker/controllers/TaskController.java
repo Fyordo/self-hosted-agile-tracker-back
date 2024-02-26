@@ -20,8 +20,8 @@ import java.util.List;
 @RequestMapping("/project/{projectId}/task")
 public class TaskController extends BaseController {
     private final ProjectService projectService;
-    private final TaskService taskService;
     private final ScrumColumnService scrumColumnService;
+    private final TaskService taskService;
 
     @GetMapping()
     public ResponseEntity<ListResponse<ScrumColumnResponse>> getAllColumnsWithTasks(

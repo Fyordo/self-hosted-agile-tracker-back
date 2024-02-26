@@ -75,7 +75,7 @@ public class ProjectController extends BaseController {
                         projectService.findById(projectId).orElseThrow(ModelNotFoundException::new)
                 )
                 .stream()
-                .map((ScrumColumn project) -> mapper.map(project, ScrumColumnShortResponse.class))
+                .map((ScrumColumn column) -> mapper.map(column, ScrumColumnShortResponse.class))
                 .toList()
                 ;
 
