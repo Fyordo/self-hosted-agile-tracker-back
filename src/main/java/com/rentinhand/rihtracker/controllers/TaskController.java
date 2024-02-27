@@ -1,34 +1,29 @@
 package com.rentinhand.rihtracker.controllers;
 
 import com.rentinhand.rihtracker.dto.requests.task.TaskUpdateRequest;
-import com.rentinhand.rihtracker.dto.responses.ListResponse;
-import com.rentinhand.rihtracker.dto.responses.project.ProjectResponse;
-import com.rentinhand.rihtracker.dto.responses.scrumColumn.ScrumColumnResponse;
+import com.rentinhand.rihtracker.dto.requests.timeEntry.TimeEntryCreateRequest;
 import com.rentinhand.rihtracker.dto.responses.task.TaskResponse;
-import com.rentinhand.rihtracker.entities.Project;
-import com.rentinhand.rihtracker.entities.ScrumColumn;
+import com.rentinhand.rihtracker.dto.responses.timeEntry.TimeEntryResponse;
 import com.rentinhand.rihtracker.entities.Task;
+import com.rentinhand.rihtracker.entities.TimeEntry;
 import com.rentinhand.rihtracker.exceptions.ModelNotFoundException;
-import com.rentinhand.rihtracker.services.ProjectService;
-import com.rentinhand.rihtracker.services.ScrumColumnService;
 import com.rentinhand.rihtracker.services.TaskService;
+import com.rentinhand.rihtracker.services.TimeEntryService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/task/{taskId}")
 public class TaskController extends BaseController {
     private final TaskService taskService;
+    private final TimeEntryService timeEntryService;
 
     @GetMapping()
     public ResponseEntity<TaskResponse> getTask(
             @PathVariable Long taskId
-    ){
+    ) {
         Task task = taskService.findById(taskId).orElseThrow(ModelNotFoundException::new);
 
         return ResponseEntity.ok(mapper.map(task, TaskResponse.class));
@@ -38,7 +33,7 @@ public class TaskController extends BaseController {
     public ResponseEntity<TaskResponse> updateTask(
             @PathVariable Long taskId,
             TaskUpdateRequest request
-    ){
+    ) {
         Task task = taskService.findById(taskId).orElseThrow(ModelNotFoundException::new);
         task = taskService.updateTask(task, request);
 
@@ -53,5 +48,20 @@ public class TaskController extends BaseController {
                 taskService.findById(taskId).orElseThrow(ModelNotFoundException::new)
         );
         return ResponseEntity.ok(null);
+    }
+
+    // TIME ENTRY
+
+    @PostMapping("start-entry")
+    public ResponseEntity<TimeEntryResponse> startTimeEntryInTask(
+            @PathVariable Long taskId,
+            @RequestBody TimeEntryCreateRequest request
+    ) {
+        TimeEntry timeEntry = timeEntryService.startTimeEntry(
+                taskService.findById(taskId).orElseThrow(ModelNotFoundException::new),
+                request
+        );
+
+        return ResponseEntity.ok(mapper.map(timeEntry, TimeEntryResponse.class));
     }
 }

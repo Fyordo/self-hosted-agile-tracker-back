@@ -1,7 +1,8 @@
 package com.rentinhand.rihtracker.services.implementations;
 
 import com.rentinhand.rihtracker.builders.TimeEntryBuilder;
-import com.rentinhand.rihtracker.dto.requests.timeEntry.TimeEntryDataRequest;
+import com.rentinhand.rihtracker.dto.requests.timeEntry.TimeEntryCreateRequest;
+import com.rentinhand.rihtracker.dto.requests.timeEntry.TimeEntryUpdateRequest;
 import com.rentinhand.rihtracker.entities.Task;
 import com.rentinhand.rihtracker.entities.TimeEntry;
 import com.rentinhand.rihtracker.exceptions.ModelNotFoundException;
@@ -36,12 +37,12 @@ public class TimeEntryServiceImpl implements TimeEntryService {
     }
 
     @Override
-    public TimeEntry startTimeEntry(Task task, String description) {
+    public TimeEntry startTimeEntry(Task task, TimeEntryCreateRequest request) {
         TimeEntry timeEntry = new TimeEntry(
                 null,
                 LocalDateTime.now(),
                 null,
-                description,
+                request.getDescription(),
                 task,
                 securityWorkspace.getAuthUser()
         );
@@ -51,7 +52,7 @@ public class TimeEntryServiceImpl implements TimeEntryService {
     }
 
     @Override
-    public TimeEntry updateTimeEntry(TimeEntry timeEntry, TimeEntryDataRequest timeEntryData) {
+    public TimeEntry updateTimeEntry(TimeEntry timeEntry, TimeEntryCreateRequest timeEntryData) {
         TimeEntryBuilder timeEntryBuilder = requestDataToBuilder(timeEntryData);
         timeEntryRepository.updateTimeEntry(
                 Optional.of(timeEntryBuilder.getTimeStart()).orElse(timeEntry.getTimeStart()),
@@ -68,7 +69,7 @@ public class TimeEntryServiceImpl implements TimeEntryService {
         timeEntryRepository.delete(timeEntry);
     }
 
-    private TimeEntryBuilder requestDataToBuilder(TimeEntryDataRequest timeEntryData){
+    private TimeEntryBuilder requestDataToBuilder(TimeEntryCreateRequest timeEntryData){
         TimeEntryBuilder result = new TimeEntryBuilder();
         result.setDescription(timeEntryData.getDescription());
         result.setTimeEnd(timeEntryData.getTimeEnd());
