@@ -52,7 +52,7 @@ public class TimeEntryServiceImpl implements TimeEntryService {
     }
 
     @Override
-    public TimeEntry updateTimeEntry(TimeEntry timeEntry, TimeEntryCreateRequest timeEntryData) {
+    public TimeEntry updateTimeEntry(TimeEntry timeEntry, TimeEntryUpdateRequest timeEntryData) {
         TimeEntryBuilder timeEntryBuilder = requestDataToBuilder(timeEntryData);
         timeEntryRepository.updateTimeEntry(
                 Optional.of(timeEntryBuilder.getTimeStart()).orElse(timeEntry.getTimeStart()),
@@ -69,7 +69,7 @@ public class TimeEntryServiceImpl implements TimeEntryService {
         timeEntryRepository.delete(timeEntry);
     }
 
-    private TimeEntryBuilder requestDataToBuilder(TimeEntryCreateRequest timeEntryData){
+    private TimeEntryBuilder requestDataToBuilder(TimeEntryUpdateRequest timeEntryData){
         TimeEntryBuilder result = new TimeEntryBuilder();
         result.setDescription(timeEntryData.getDescription());
         result.setTimeEnd(timeEntryData.getTimeEnd());
