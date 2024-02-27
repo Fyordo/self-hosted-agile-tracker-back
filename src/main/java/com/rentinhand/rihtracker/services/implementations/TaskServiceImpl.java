@@ -1,6 +1,6 @@
 package com.rentinhand.rihtracker.services.implementations;
 
-import com.rentinhand.rihtracker.dto.TaskDTO;
+import com.rentinhand.rihtracker.builders.TaskBuilder;
 import com.rentinhand.rihtracker.dto.requests.task.TaskCreateRequest;
 import com.rentinhand.rihtracker.dto.requests.task.TaskUpdateRequest;
 import com.rentinhand.rihtracker.entities.Project;
@@ -56,15 +56,15 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task updateTask(Task task, TaskUpdateRequest taskData) {
-        TaskDTO taskDTO = taskDataToDTO(taskData);
+        TaskBuilder taskBuilder = taskDataToBuilder(taskData);
 
         taskRepository.updateTask(
-                Optional.of(taskDTO.getTitle()).orElse(task.getTitle()),
-                Optional.of(taskDTO.getDescription()).orElse(task.getDescription()),
-                Optional.of(taskDTO.getDeadline()).orElse(task.getDeadline()),
-                Optional.of(taskDTO.getTaskType()).orElse(task.getTaskType()),
-                Optional.of(taskDTO.getScrumColumn()).orElse(task.getScrumColumn()),
-                Optional.of(taskDTO.getMaintainer()).orElse(task.getMaintainer()),
+                Optional.of(taskBuilder.getTitle()).orElse(task.getTitle()),
+                Optional.of(taskBuilder.getDescription()).orElse(task.getDescription()),
+                Optional.of(taskBuilder.getDeadline()).orElse(task.getDeadline()),
+                Optional.of(taskBuilder.getTaskType()).orElse(task.getTaskType()),
+                Optional.of(taskBuilder.getScrumColumn()).orElse(task.getScrumColumn()),
+                Optional.of(taskBuilder.getMaintainer()).orElse(task.getMaintainer()),
                 task.getId()
         );
 
@@ -94,15 +94,15 @@ public class TaskServiceImpl implements TaskService {
         return task;
     }
 
-    private TaskDTO taskDataToDTO(TaskUpdateRequest taskData){
-        TaskDTO taskDTO = new TaskDTO();
-        taskDTO.setTitle(taskData.getTitle());
-        taskDTO.setDescription(taskData.getDescription());
-        taskDTO.setDeadline(taskData.getDeadline());
-        taskDTO.setTaskType(taskTypeService.findById(taskData.getTaskTypeId()).orElseThrow(ModelNotFoundException::new));
-        taskDTO.setMaintainer(userService.findById(taskData.getMaintainerUserId()).orElseThrow(ModelNotFoundException::new));
-        taskDTO.setCreatedUser(userService.findById(taskData.getCreatedUserId()).orElseThrow(ModelNotFoundException::new));
+    private TaskBuilder taskDataToBuilder(TaskUpdateRequest taskData){
+        TaskBuilder taskBuilder = new TaskBuilder();
+        taskBuilder.setTitle(taskData.getTitle());
+        taskBuilder.setDescription(taskData.getDescription());
+        taskBuilder.setDeadline(taskData.getDeadline());
+        taskBuilder.setTaskType(taskTypeService.findById(taskData.getTaskTypeId()).orElseThrow(ModelNotFoundException::new));
+        taskBuilder.setMaintainer(userService.findById(taskData.getMaintainerUserId()).orElseThrow(ModelNotFoundException::new));
+        taskBuilder.setCreatedUser(userService.findById(taskData.getCreatedUserId()).orElseThrow(ModelNotFoundException::new));
 
-        return taskDTO;
+        return taskBuilder;
     }
 }

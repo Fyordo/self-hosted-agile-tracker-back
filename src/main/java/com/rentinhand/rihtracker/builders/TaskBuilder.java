@@ -1,8 +1,9 @@
-package com.rentinhand.rihtracker.dto;
+package com.rentinhand.rihtracker.builders;
 
 import com.rentinhand.rihtracker.entities.*;
-import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -11,7 +12,9 @@ import java.util.List;
 import java.util.Set;
 
 @Data
-public class TaskDTO {
+@Builder
+@NoArgsConstructor
+public class TaskBuilder {
     private Long id;
     private String title;
     private String description;

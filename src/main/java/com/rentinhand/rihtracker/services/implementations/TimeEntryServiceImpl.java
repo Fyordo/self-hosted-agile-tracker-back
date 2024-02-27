@@ -1,6 +1,6 @@
 package com.rentinhand.rihtracker.services.implementations;
 
-import com.rentinhand.rihtracker.dto.TimeEntryDTO;
+import com.rentinhand.rihtracker.builders.TimeEntryBuilder;
 import com.rentinhand.rihtracker.dto.requests.timeEntry.TimeEntryDataRequest;
 import com.rentinhand.rihtracker.entities.Task;
 import com.rentinhand.rihtracker.entities.TimeEntry;
@@ -52,12 +52,12 @@ public class TimeEntryServiceImpl implements TimeEntryService {
 
     @Override
     public TimeEntry updateTimeEntry(TimeEntry timeEntry, TimeEntryDataRequest timeEntryData) {
-        TimeEntryDTO timeEntryDTO = requestDataToDto(timeEntryData);
+        TimeEntryBuilder timeEntryBuilder = requestDataToBuilder(timeEntryData);
         timeEntryRepository.updateTimeEntry(
-                Optional.of(timeEntryDTO.getTimeStart()).orElse(timeEntry.getTimeStart()),
-                Optional.of(timeEntryDTO.getTimeEnd()).orElse(timeEntry.getTimeStart()),
-                Optional.of(timeEntryDTO.getDescription()).orElse(timeEntry.getDescription()),
-                Optional.of(timeEntryDTO.getTask()).orElse(timeEntry.getTask()),
+                Optional.of(timeEntryBuilder.getTimeStart()).orElse(timeEntry.getTimeStart()),
+                Optional.of(timeEntryBuilder.getTimeEnd()).orElse(timeEntry.getTimeStart()),
+                Optional.of(timeEntryBuilder.getDescription()).orElse(timeEntry.getDescription()),
+                Optional.of(timeEntryBuilder.getTask()).orElse(timeEntry.getTask()),
                 timeEntry.getId()
         );
         return timeEntry;
@@ -68,8 +68,8 @@ public class TimeEntryServiceImpl implements TimeEntryService {
         timeEntryRepository.delete(timeEntry);
     }
 
-    private TimeEntryDTO requestDataToDto(TimeEntryDataRequest timeEntryData){
-        TimeEntryDTO result = new TimeEntryDTO();
+    private TimeEntryBuilder requestDataToBuilder(TimeEntryDataRequest timeEntryData){
+        TimeEntryBuilder result = new TimeEntryBuilder();
         result.setDescription(timeEntryData.getDescription());
         result.setTimeEnd(timeEntryData.getTimeEnd());
         result.setTimeStart(timeEntryData.getTimeStart());
