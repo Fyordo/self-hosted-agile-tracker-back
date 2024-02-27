@@ -1,6 +1,7 @@
 package com.rentinhand.rihtracker.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +30,8 @@ public class TimeEntry extends CRUDEntity{
     @Column(name = "description", nullable = false)
     private String description;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @NotNull
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "task_id")
     private Task task;
 
