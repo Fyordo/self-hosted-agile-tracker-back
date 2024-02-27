@@ -1,5 +1,6 @@
 package com.rentinhand.rihtracker.controllers;
 
+import com.rentinhand.rihtracker.dto.requests.task.TaskUpdateRequest;
 import com.rentinhand.rihtracker.dto.responses.ListResponse;
 import com.rentinhand.rihtracker.dto.responses.project.ProjectResponse;
 import com.rentinhand.rihtracker.dto.responses.scrumColumn.ScrumColumnResponse;
@@ -31,5 +32,26 @@ public class TaskController extends BaseController {
         Task task = taskService.findById(taskId).orElseThrow(ModelNotFoundException::new);
 
         return ResponseEntity.ok(mapper.map(task, TaskResponse.class));
+    }
+
+    @PutMapping()
+    public ResponseEntity<TaskResponse> updateTask(
+            @PathVariable Long taskId,
+            TaskUpdateRequest request
+    ){
+        Task task = taskService.findById(taskId).orElseThrow(ModelNotFoundException::new);
+        task = taskService.updateTask(task, request);
+
+        return ResponseEntity.ok(mapper.map(task, TaskResponse.class));
+    }
+
+    @DeleteMapping()
+    public ResponseEntity<?> deleteColumn(
+            @PathVariable Long taskId
+    ) {
+        taskService.deleteTask(
+                taskService.findById(taskId).orElseThrow(ModelNotFoundException::new)
+        );
+        return ResponseEntity.ok(null);
     }
 }
