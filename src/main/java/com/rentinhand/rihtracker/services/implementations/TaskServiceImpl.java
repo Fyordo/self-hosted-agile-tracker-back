@@ -1,5 +1,7 @@
 package com.rentinhand.rihtracker.services.implementations;
 
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.rentinhand.rihtracker.builders.TaskBuilder;
 import com.rentinhand.rihtracker.dto.requests.task.TaskCreateRequest;
 import com.rentinhand.rihtracker.dto.requests.task.TaskUpdateRequest;
@@ -16,9 +18,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,8 +32,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Collection<Task> findAll(Map<String, String> filter) {
-        Collection<Task> tasks = taskRepository.findAll();
-        return filter(tasks, filter);
+        Collection<Task> tasks = (Collection<Task>) taskRepository.findAll(generateFilter(filter));
+        return tasks;
     }
 
     @Override
@@ -112,25 +111,26 @@ public class TaskServiceImpl implements TaskService {
         return taskBuilder;
     }
 
-    private List<Task> filter(Collection<Task> collection, Map<String, String> filter) {
-        return collection.stream().filter(
-                (Task task) -> {
-                    AtomicBoolean result = new AtomicBoolean(true);
-                    filter.forEach((String key, String value) -> {
-                        switch (key) {
-                            case "search" -> result.set(result.get() &
-                                    (task.getTitle().contains(value) || task.getDescription().contains(value))
-                            );
-                            case "title" -> {
-                                result.set(
-                                        result.get() &
-                                                task.getTitle().equals(value)
-                                );
-                            }
-                        }
-                    });
-                    return result.get();
-                }
-        ).toList();
+    private BooleanExpression generateFilter(Map<String, String> filter) {
+        QTask qTask = QTask.task;
+        BooleanExpression result = qTask.isNotNull();
+
+        for (Map.Entry<String, String> pair : filter.entrySet()) {
+            String key = pair.getKey();
+            String value = pair.getValue();
+
+            switch (key) {
+                case "search" -> result = result.and(
+                        qTask.title.contains(value).or(
+                                qTask.description.contains(value)
+                        )
+                );
+                case "title" -> result = result.and(
+                        qTask.title.eq(value)
+                );
+            }
+        }
+
+        return result;
     }
 }
