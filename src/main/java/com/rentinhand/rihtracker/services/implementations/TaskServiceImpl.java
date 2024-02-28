@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -123,14 +124,16 @@ public class TaskServiceImpl implements TaskService {
                             case "search" -> result.set(result.get() &
                                     (task.getTitle().contains(value) || task.getDescription().contains(value))
                             );
-                            case "title" -> result.set(
-                                    result.get() &
-                                            task.getTitle().equals(value)
-                            );
+                            case "title" -> {
+                                result.set(
+                                        result.get() &
+                                                task.getTitle().equals(value)
+                                );
+                            }
                         }
                     });
                     return result.get();
                 }
-        ).collect(Collectors.toList());
+        ).toList();
     }
 }
