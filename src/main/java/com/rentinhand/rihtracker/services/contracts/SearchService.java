@@ -1,4 +1,4 @@
-package com.rentinhand.rihtracker.services;
+package com.rentinhand.rihtracker.services.contracts;
 
 import java.util.Collection;
 import java.util.Map;

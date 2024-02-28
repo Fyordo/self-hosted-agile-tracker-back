@@ -6,6 +6,7 @@ import com.rentinhand.rihtracker.entities.Project;
 import com.rentinhand.rihtracker.entities.ScrumColumn;
 import com.rentinhand.rihtracker.entities.Task;
 import com.rentinhand.rihtracker.entities.User;
+import com.rentinhand.rihtracker.services.contracts.SearchService;
 
 import java.util.Collection;
 import java.util.Map;
