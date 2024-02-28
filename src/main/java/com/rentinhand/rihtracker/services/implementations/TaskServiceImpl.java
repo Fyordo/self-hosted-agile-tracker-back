@@ -19,6 +19,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +34,12 @@ public class TaskServiceImpl implements TaskService {
     private ModelMapper mapper = new ModelMapper();
 
     @Override
+    public Collection<Task> findAll(Map<String, String> filter) {
+        Collection<Task> tasks = taskRepository.findAll();
+        return filter(tasks, filter);
+    }
+
+    @Override
     public Collection<Task> getProjectTasks(Project project) {
         Set<Task> tasks = new HashSet<>();
         project.getColumns().forEach((ScrumColumn column) -> tasks.addAll(column.getTasks()));
@@ -40,8 +48,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Optional<Task> findById(Long taskId) {
-        return taskRepository.findById(taskId);
+    public Optional<Task> findById(Long id) {
+        return taskRepository.findById(id);
     }
 
     @Override
@@ -94,7 +102,7 @@ public class TaskServiceImpl implements TaskService {
         return task;
     }
 
-    private TaskBuilder taskDataToBuilder(TaskUpdateRequest taskData){
+    private TaskBuilder taskDataToBuilder(TaskUpdateRequest taskData) {
         TaskBuilder taskBuilder = new TaskBuilder();
         taskBuilder.setTitle(taskData.getTitle());
         taskBuilder.setDescription(taskData.getDescription());
@@ -104,5 +112,25 @@ public class TaskServiceImpl implements TaskService {
         taskBuilder.setCreatedUser(userService.findById(taskData.getCreatedUserId()).orElseThrow(ModelNotFoundException::new));
 
         return taskBuilder;
+    }
+
+    private List<Task> filter(Collection<Task> collection, Map<String, String> filter) {
+        return collection.stream().filter(
+                (Task task) -> {
+                    AtomicBoolean result = new AtomicBoolean(true);
+                    filter.forEach((String key, String value) -> {
+                        switch (key) {
+                            case "search" -> result.set(result.get() &
+                                    (task.getTitle().contains(value) || task.getDescription().contains(value))
+                            );
+                            case "title" -> result.set(
+                                    result.get() &
+                                            task.getTitle().equals(value)
+                            );
+                        }
+                    });
+                    return result.get();
+                }
+        ).collect(Collectors.toList());
     }
 }

@@ -8,12 +8,14 @@ import com.rentinhand.rihtracker.entities.Task;
 import com.rentinhand.rihtracker.entities.User;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 
-public interface TaskService {
+public interface TaskService extends SearchService<Task> {
+    Collection<Task> findAll(Map<String, String> filter);
     Collection<Task> getProjectTasks(Project project);
 
-    Optional<Task> findById(Long taskId);
+    Optional<Task> findById(Long id);
 
     Task createTask(TaskCreateRequest taskData, ScrumColumn scrumColumn);
 
