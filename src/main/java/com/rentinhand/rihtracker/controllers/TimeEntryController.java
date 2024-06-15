@@ -3,10 +3,9 @@ package com.rentinhand.rihtracker.controllers;
 import com.rentinhand.rihtracker.dto.requests.task.TaskUpdateRequest;
 import com.rentinhand.rihtracker.dto.requests.timeEntry.TimeEntryCreateRequest;
 import com.rentinhand.rihtracker.dto.responses.ListResponse;
-import com.rentinhand.rihtracker.dto.responses.project.ProjectResponse;
 import com.rentinhand.rihtracker.dto.responses.task.TaskResponse;
 import com.rentinhand.rihtracker.dto.responses.timeEntry.TimeEntryResponse;
-import com.rentinhand.rihtracker.entities.Project;
+import com.rentinhand.rihtracker.dto.responses.timeEntry.TimeEntryShortResponse;
 import com.rentinhand.rihtracker.entities.Task;
 import com.rentinhand.rihtracker.entities.TimeEntry;
 import com.rentinhand.rihtracker.exceptions.ModelNotFoundException;
@@ -16,34 +15,36 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
+import java.sql.Time;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/task")
-public class TaskController extends BaseController {
+@RequestMapping("/time_entry")
+public class TimeEntryController extends BaseController {
     private final TaskService taskService;
     private final TimeEntryService timeEntryService;
 
     @GetMapping()
-    public ResponseEntity<ListResponse<TaskResponse>> getTasks(
+    public ResponseEntity<ListResponse<TimeEntryShortResponse>> getTimeEntries(
             @RequestParam Map<String, String> filter
             ) {
-        List<TaskResponse> tasks = taskService.findAll(filter)
-                .stream().map((Task task) -> mapper.map(task, TaskResponse.class)).toList();
+        List<TimeEntryShortResponse> timeEntries = timeEntryService.findAllForCurrentWeek()
+                .stream().map((TimeEntry timeEntry) -> mapper.map(timeEntry, TimeEntryShortResponse.class)).toList();
 
-        return ResponseEntity.ok(new ListResponse<>(tasks));
+        return ResponseEntity.ok(new ListResponse<>(timeEntries));
     }
 
-    @GetMapping("/{taskId}")
-    public ResponseEntity<TaskResponse> getTask(
-            @PathVariable Long taskId
+    @GetMapping("/current")
+    public ResponseEntity<TaskResponse> getCurrentTimeEntry(
     ) {
-        Task task = taskService.findById(taskId).orElseThrow(ModelNotFoundException::new);
-
-        return ResponseEntity.ok(mapper.map(task, TaskResponse.class));
+        Optional<TimeEntry> currentTimeEntry = timeEntryService.getCurrentTimeEntry();
+        if(currentTimeEntry.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(mapper.map(currentTimeEntry, TaskResponse.class));
     }
 
     @PutMapping("/{taskId}")
@@ -67,20 +68,11 @@ public class TaskController extends BaseController {
         return ResponseEntity.ok(null);
     }
 
-    // TIME ENTRY
-
-    @PostMapping("/{taskId}/start-entry")
-    public ResponseEntity<TimeEntryResponse> startTimeEntryInTask(
-            @PathVariable Long taskId,
-            @RequestBody TimeEntryCreateRequest request
+    @PostMapping("/end/{timeEntryId}")
+    public ResponseEntity<TimeEntryResponse> endTimeEntry(
+            @PathVariable Long timeEntryId
     ) {
-        TimeEntry timeEntry = timeEntryService.startTimeEntry(
-                taskService.findById(taskId).orElseThrow(ModelNotFoundException::new),
-                request
-        );
-
+        TimeEntry timeEntry = timeEntryService.endTimeEntry(timeEntryId);
         return ResponseEntity.ok(mapper.map(timeEntry, TimeEntryResponse.class));
     }
-
-
 }
