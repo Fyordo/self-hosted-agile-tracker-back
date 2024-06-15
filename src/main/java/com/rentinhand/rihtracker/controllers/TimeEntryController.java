@@ -2,6 +2,7 @@ package com.rentinhand.rihtracker.controllers;
 
 import com.rentinhand.rihtracker.dto.requests.task.TaskUpdateRequest;
 import com.rentinhand.rihtracker.dto.requests.timeEntry.TimeEntryCreateRequest;
+import com.rentinhand.rihtracker.dto.requests.timeEntry.TimeEntryUpdateRequest;
 import com.rentinhand.rihtracker.dto.responses.ListResponse;
 import com.rentinhand.rihtracker.dto.responses.task.TaskResponse;
 import com.rentinhand.rihtracker.dto.responses.timeEntry.TimeEntryResponse;
@@ -38,32 +39,32 @@ public class TimeEntryController extends BaseController {
     }
 
     @GetMapping("/current")
-    public ResponseEntity<TaskResponse> getCurrentTimeEntry(
+    public ResponseEntity<TimeEntryResponse> getCurrentTimeEntry(
     ) {
         Optional<TimeEntry> currentTimeEntry = timeEntryService.getCurrentTimeEntry();
         if(currentTimeEntry.isEmpty()){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(mapper.map(currentTimeEntry, TaskResponse.class));
+        return ResponseEntity.ok(mapper.map(currentTimeEntry, TimeEntryResponse.class));
     }
 
-    @PutMapping("/{taskId}")
-    public ResponseEntity<TaskResponse> updateTask(
-            @PathVariable Long taskId,
-            TaskUpdateRequest request
+    @PutMapping("/{timeEntryId}")
+    public ResponseEntity<TimeEntryResponse> updateTimeEntry(
+            @PathVariable Long timeEntryId,
+            TimeEntryUpdateRequest request
     ) {
-        Task task = taskService.findById(taskId).orElseThrow(ModelNotFoundException::new);
-        task = taskService.updateTask(task, request);
+        TimeEntry timeEntry = timeEntryService.findById(timeEntryId).orElseThrow(ModelNotFoundException::new);
+        timeEntry = timeEntryService.updateTimeEntry(timeEntry, request);
 
-        return ResponseEntity.ok(mapper.map(task, TaskResponse.class));
+        return ResponseEntity.ok(mapper.map(timeEntry, TimeEntryResponse.class));
     }
 
-    @DeleteMapping("/{taskId}")
-    public ResponseEntity<?> deleteColumn(
-            @PathVariable Long taskId
+    @DeleteMapping("/{timeEntryId}")
+    public ResponseEntity<?> deleteTimeEntry(
+            @PathVariable Long timeEntryId
     ) {
-        taskService.deleteTask(
-                taskService.findById(taskId).orElseThrow(ModelNotFoundException::new)
+        timeEntryService.deleteTimeEntry(
+                timeEntryService.findById(timeEntryId).orElseThrow(ModelNotFoundException::new)
         );
         return ResponseEntity.ok(null);
     }
