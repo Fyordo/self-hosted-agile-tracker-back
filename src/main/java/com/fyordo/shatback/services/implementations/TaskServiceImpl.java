@@ -81,11 +81,23 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task addUserToTask(Task task, User user) {
-        task.getUsers().add(user);
+    public Task addUserToTask(Long taskId, Long userId) {
+        Optional<Task> taskOpt = taskRepository.findById(taskId);
+        if(taskOpt.isEmpty()){
+            throw new ModelNotFoundException();
+        }
 
-        taskRepository.save(task);
+        Optional<User> userOpt = userService.findById(userId);
 
+        Task task = taskOpt.get();
+        User user = userOpt.get();
+
+        if(!task.getUsers().contains(user)) {
+            task.getUsers().add(user);
+            user.getTasks().add(task);
+
+            taskRepository.save(task);
+        }
         return task;
     }
 

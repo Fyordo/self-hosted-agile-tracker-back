@@ -34,6 +34,18 @@ public class TaskController extends BaseController {
         return ResponseEntity.ok(new ListResponse<>(tasks));
     }
 
+    @PostMapping("/{taskId}/add/user/{userId}")
+    public ResponseEntity<TaskResponse> addUserToTask(
+            @PathVariable Long taskId,
+            @PathVariable Long userId
+            ) {
+
+       Task task = taskService.addUserToTask(taskId, userId);
+
+        return ResponseEntity.ok(mapper.map(task, TaskResponse.class));
+    }
+
+
     @GetMapping("/{taskId}")
     public ResponseEntity<TaskResponse> getTask(
             @PathVariable Long taskId
@@ -54,7 +66,7 @@ public class TaskController extends BaseController {
         return ResponseEntity.ok(mapper.map(task, TaskResponse.class));
     }
 
-    @DeleteMapping("/{taskId}")
+    @DeleteMapping("/{taskId}/add/")
     public ResponseEntity<?> deleteColumn(
             @PathVariable Long taskId
     ) {

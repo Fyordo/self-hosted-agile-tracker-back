@@ -3,9 +3,11 @@ package com.fyordo.shatback.services.implementations;
 import com.fyordo.shatback.builders.TimeEntryBuilder;
 import com.fyordo.shatback.dto.requests.timeEntry.TimeEntryCreateRequest;
 import com.fyordo.shatback.dto.requests.timeEntry.TimeEntryUpdateRequest;
+import com.fyordo.shatback.entities.Project;
 import com.fyordo.shatback.entities.Task;
 import com.fyordo.shatback.entities.TimeEntry;
 import com.fyordo.shatback.exceptions.ModelNotFoundException;
+import com.fyordo.shatback.repos.ProjectRepository;
 import com.fyordo.shatback.repos.TimeEntryRepository;
 import com.fyordo.shatback.services.TaskService;
 import com.fyordo.shatback.services.TimeEntryService;
@@ -15,7 +17,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +32,7 @@ public class TimeEntryServiceImpl implements TimeEntryService {
     private final TaskService taskService;
     private ModelMapper mapper = new ModelMapper();
     private TimeEntry activeTimeEntry;
+    private final ProjectRepository projectRepository;
 
     @Override
     public List<TimeEntry> findAll() {
@@ -40,6 +45,15 @@ public class TimeEntryServiceImpl implements TimeEntryService {
         LocalDateTime endOfWeek = now.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)).withHour(23).withMinute(59).withSecond(59).withNano(999999999);
 
         return timeEntryRepository.findAllByTimeStartBetween(startOfWeek, endOfWeek);
+    }
+
+    public List<TimeEntry> getEntriesByDateAndProjectId(LocalDate date, Project project){
+        return this.timeEntryRepository.findAllByUserAndDateAndProject(
+                securityWorkspace.getAuthUserId(),
+                project,
+                date.atStartOfDay(),
+                date.atTime(LocalTime.MAX)
+        );
     }
 
     @Override

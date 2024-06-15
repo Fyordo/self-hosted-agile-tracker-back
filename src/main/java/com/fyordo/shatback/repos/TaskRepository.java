@@ -12,6 +12,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long>, QuerydslPredicateExecutor<Task> {
@@ -29,4 +32,8 @@ public interface TaskRepository extends JpaRepository<Task, Long>, QuerydslPredi
             User maintainer,
             Long id
     );
+
+    @Query("select t from Task t inner join t.users users where t.scrumColumn.project.id = ?1 and users.id = ?2")
+    List<Task> getAllAttachedByProjectId(Long projectId, Long userId);
+
 }
