@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Time;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -66,18 +67,11 @@ public class TimeEntryController extends BaseController {
         return ResponseEntity.ok(null);
     }
 
-    // TIME ENTRY
-
-    @PostMapping("/{taskId}/start-entry")
-    public ResponseEntity<TimeEntryResponse> startTimeEntryInTask(
-            @PathVariable Long taskId,
-            @RequestBody TimeEntryCreateRequest request
+    @PostMapping("/end/{timeEntryId}")
+    public ResponseEntity<TimeEntryResponse> endTimeEntry(
+            @PathVariable Long timeEntryId
     ) {
-        TimeEntry timeEntry = timeEntryService.startTimeEntry(
-                taskService.findById(taskId).orElseThrow(ModelNotFoundException::new),
-                request
-        );
-
+        TimeEntry timeEntry = timeEntryService.endTimeEntry(timeEntryId);
         return ResponseEntity.ok(mapper.map(timeEntry, TimeEntryResponse.class));
     }
 }

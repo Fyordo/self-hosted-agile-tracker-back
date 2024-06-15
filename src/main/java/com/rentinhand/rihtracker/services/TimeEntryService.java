@@ -14,5 +14,6 @@ public interface TimeEntryService {
     Optional<TimeEntry> getCurrentTimeEntry();
     TimeEntry startTimeEntry(Task task, TimeEntryCreateRequest request);
     TimeEntry updateTimeEntry(TimeEntry timeEntry, TimeEntryUpdateRequest timeEntryData);
+    TimeEntry endTimeEntry(Long timeEntryId);
     void deleteTimeEntry(TimeEntry timeEntry);
 }

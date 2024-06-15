@@ -20,4 +20,9 @@ public interface TimeEntryRepository extends JpaRepository<TimeEntry, Long> {
 
     Optional<TimeEntry> findByUser_IdAndTimeStartBeforeAndTimeEndNull(Long id, LocalDateTime timeStart);
 
+    @Transactional
+    @Modifying
+    @Query("update TimeEntry t set t.timeEnd = ?1 where t.id = ?2")
+    int setTimeEnd(LocalDateTime timeEnd, Long id);
+
 }
