@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RihTrackerApplication {
+public class ShatApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RihTrackerApplication.class, args);
+        SpringApplication.run(ShatApplication.class, args);
     }
 
 }
