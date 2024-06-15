@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/profile")
-@UserAuth
 public class ProfileController extends BaseController{
     private UserService userService;
 

@@ -33,7 +33,7 @@ public class User extends CRUDEntity implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "avatar")
+    @Column(name = "avatar", length = 1000)
     private String avatar;
 
     @Enumerated(EnumType.STRING)
