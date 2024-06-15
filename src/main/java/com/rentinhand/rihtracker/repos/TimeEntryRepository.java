@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -24,5 +25,7 @@ public interface TimeEntryRepository extends JpaRepository<TimeEntry, Long> {
     @Modifying
     @Query("update TimeEntry t set t.timeEnd = ?1 where t.id = ?2")
     int setTimeEnd(LocalDateTime timeEnd, Long id);
+
+    List<TimeEntry> findAllByTimeStartBetween(LocalDateTime start, LocalDateTime end);
 
 }

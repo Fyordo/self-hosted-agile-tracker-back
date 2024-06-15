@@ -15,7 +15,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +33,14 @@ public class TimeEntryServiceImpl implements TimeEntryService {
     @Override
     public List<TimeEntry> findAll() {
         return timeEntryRepository.findAll();
+    }
+
+    public List<TimeEntry> findAllForCurrentWeek() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime startOfWeek = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDateTime endOfWeek = now.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)).withHour(23).withMinute(59).withSecond(59).withNano(999999999);
+
+        return timeEntryRepository.findAllByTimeStartBetween(startOfWeek, endOfWeek);
     }
 
     @Override

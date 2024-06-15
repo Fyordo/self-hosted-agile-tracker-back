@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public interface TimeEntryService {
     List<TimeEntry> findAll();
+    List<TimeEntry> findAllForCurrentWeek();
     Optional<TimeEntry> findById(Long timeEntryId);
     Optional<TimeEntry> getCurrentTimeEntry();
     TimeEntry startTimeEntry(Task task, TimeEntryCreateRequest request);

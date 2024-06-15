@@ -5,6 +5,7 @@ import com.rentinhand.rihtracker.dto.requests.timeEntry.TimeEntryCreateRequest;
 import com.rentinhand.rihtracker.dto.responses.ListResponse;
 import com.rentinhand.rihtracker.dto.responses.task.TaskResponse;
 import com.rentinhand.rihtracker.dto.responses.timeEntry.TimeEntryResponse;
+import com.rentinhand.rihtracker.dto.responses.timeEntry.TimeEntryShortResponse;
 import com.rentinhand.rihtracker.entities.Task;
 import com.rentinhand.rihtracker.entities.TimeEntry;
 import com.rentinhand.rihtracker.exceptions.ModelNotFoundException;
@@ -27,13 +28,13 @@ public class TimeEntryController extends BaseController {
     private final TimeEntryService timeEntryService;
 
     @GetMapping()
-    public ResponseEntity<ListResponse<TaskResponse>> getTasks(
+    public ResponseEntity<ListResponse<TimeEntryShortResponse>> getTimeEntries(
             @RequestParam Map<String, String> filter
             ) {
-        List<TaskResponse> tasks = taskService.findAll(filter)
-                .stream().map((Task task) -> mapper.map(task, TaskResponse.class)).toList();
+        List<TimeEntryShortResponse> timeEntries = timeEntryService.findAllForCurrentWeek()
+                .stream().map((TimeEntry timeEntry) -> mapper.map(timeEntry, TimeEntryShortResponse.class)).toList();
 
-        return ResponseEntity.ok(new ListResponse<>(tasks));
+        return ResponseEntity.ok(new ListResponse<>(timeEntries));
     }
 
     @GetMapping("/current")
