@@ -3,9 +3,11 @@ package com.rentinhand.rihtracker.services.implementations;
 import com.rentinhand.rihtracker.builders.TimeEntryBuilder;
 import com.rentinhand.rihtracker.dto.requests.timeEntry.TimeEntryCreateRequest;
 import com.rentinhand.rihtracker.dto.requests.timeEntry.TimeEntryUpdateRequest;
+import com.rentinhand.rihtracker.entities.Project;
 import com.rentinhand.rihtracker.entities.Task;
 import com.rentinhand.rihtracker.entities.TimeEntry;
 import com.rentinhand.rihtracker.exceptions.ModelNotFoundException;
+import com.rentinhand.rihtracker.repos.ProjectRepository;
 import com.rentinhand.rihtracker.repos.TimeEntryRepository;
 import com.rentinhand.rihtracker.services.TaskService;
 import com.rentinhand.rihtracker.services.TimeEntryService;
@@ -16,7 +18,9 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Time;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +33,7 @@ public class TimeEntryServiceImpl implements TimeEntryService {
     private final TaskService taskService;
     private ModelMapper mapper = new ModelMapper();
     private TimeEntry activeTimeEntry;
+    private final ProjectRepository projectRepository;
 
     @Override
     public List<TimeEntry> findAll() {
@@ -41,6 +46,15 @@ public class TimeEntryServiceImpl implements TimeEntryService {
         LocalDateTime endOfWeek = now.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)).withHour(23).withMinute(59).withSecond(59).withNano(999999999);
 
         return timeEntryRepository.findAllByTimeStartBetween(startOfWeek, endOfWeek);
+    }
+
+    public List<TimeEntry> getEntriesByDateAndProjectId(LocalDate date, Project project){
+        return this.timeEntryRepository.findAllByUserAndDateAndProject(
+                securityWorkspace.getAuthUserId(),
+                project,
+                date.atStartOfDay(),
+                date.atTime(LocalTime.MAX)
+        );
     }
 
     @Override

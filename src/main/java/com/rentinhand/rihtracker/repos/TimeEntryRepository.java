@@ -1,5 +1,6 @@
 package com.rentinhand.rihtracker.repos;
 
+import com.rentinhand.rihtracker.entities.Project;
 import com.rentinhand.rihtracker.entities.Task;
 import com.rentinhand.rihtracker.entities.TimeEntry;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,5 +28,11 @@ public interface TimeEntryRepository extends JpaRepository<TimeEntry, Long> {
     int setTimeEnd(LocalDateTime timeEnd, Long id);
 
     List<TimeEntry> findAllByTimeStartBetween(LocalDateTime start, LocalDateTime end);
+
+
+    @Query("""
+            select t from TimeEntry t
+            where t.user.id = ?1 and t.task.scrumColumn.project = ?2 and t.timeStart between ?3 and ?4 and t.timeEnd is not null""")
+    List<TimeEntry> findAllByUserAndDateAndProject(Long id, Project project, LocalDateTime timeStartStart, LocalDateTime timeStartEnd);
 
 }
