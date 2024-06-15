@@ -1,10 +1,8 @@
 package com.fyordo.shatback.dto.responses.task;
 
 import com.fyordo.shatback.dto.responses.user.UserResponse;
+import com.fyordo.shatback.entities.Task;
 import com.fyordo.shatback.entities.TaskType;
-import com.rentinhand.rihtracker.dto.responses.user.UserResponse;
-import com.rentinhand.rihtracker.entities.Task;
-import com.rentinhand.rihtracker.entities.TaskType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

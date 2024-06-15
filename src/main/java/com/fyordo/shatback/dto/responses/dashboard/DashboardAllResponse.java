@@ -1,7 +1,7 @@
-package com.rentinhand.rihtracker.dto.responses.dashboard;
+package com.fyordo.shatback.dto.responses.dashboard;
 
+import com.fyordo.shatback.dto.task.CurrentTaskDto;
 import com.rentinhand.rihtracker.dto.TimePeriodDto;
-import com.rentinhand.rihtracker.dto.task.CurrentTaskDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

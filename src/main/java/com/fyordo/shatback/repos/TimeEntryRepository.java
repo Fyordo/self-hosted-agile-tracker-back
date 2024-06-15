@@ -1,10 +1,8 @@
 package com.fyordo.shatback.repos;
 
+import com.fyordo.shatback.entities.Project;
 import com.fyordo.shatback.entities.Task;
 import com.fyordo.shatback.entities.TimeEntry;
-import com.rentinhand.rihtracker.entities.Project;
-import com.rentinhand.rihtracker.entities.Task;
-import com.rentinhand.rihtracker.entities.TimeEntry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

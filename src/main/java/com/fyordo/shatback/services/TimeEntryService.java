@@ -2,13 +2,9 @@ package com.fyordo.shatback.services;
 
 import com.fyordo.shatback.dto.requests.timeEntry.TimeEntryCreateRequest;
 import com.fyordo.shatback.dto.requests.timeEntry.TimeEntryUpdateRequest;
+import com.fyordo.shatback.entities.Project;
 import com.fyordo.shatback.entities.Task;
 import com.fyordo.shatback.entities.TimeEntry;
-import com.rentinhand.rihtracker.dto.requests.timeEntry.TimeEntryCreateRequest;
-import com.rentinhand.rihtracker.dto.requests.timeEntry.TimeEntryUpdateRequest;
-import com.rentinhand.rihtracker.entities.Project;
-import com.rentinhand.rihtracker.entities.Task;
-import com.rentinhand.rihtracker.entities.TimeEntry;
 
 import java.time.LocalDate;
 import java.util.List;

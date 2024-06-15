@@ -1,8 +1,7 @@
-package com.rentinhand.rihtracker.controllers;
+package com.fyordo.shatback.controllers;
 
-import com.rentinhand.rihtracker.dto.responses.dashboard.DashboardAllResponse;
-import com.rentinhand.rihtracker.services.DashboardService;
-import lombok.AllArgsConstructor;
+import com.fyordo.shatback.dto.responses.dashboard.DashboardAllResponse;
+import com.fyordo.shatback.services.DashboardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

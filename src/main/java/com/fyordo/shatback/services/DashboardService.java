@@ -1,6 +1,6 @@
-package com.rentinhand.rihtracker.services;
+package com.fyordo.shatback.services;
 
-import com.rentinhand.rihtracker.dto.responses.dashboard.DashboardAllResponse;
+import com.fyordo.shatback.dto.responses.dashboard.DashboardAllResponse;
 
 public interface DashboardService {
     DashboardAllResponse getAll(Long projectId);

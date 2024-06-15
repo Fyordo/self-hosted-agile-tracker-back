@@ -1,7 +1,6 @@
+package com.fyordo.shatback.dto.task;
 
-package com.rentinhand.rihtracker.dto.task;
-
-import com.rentinhand.rihtracker.dto.responses.task.TaskShortResponse;
+import com.fyordo.shatback.dto.responses.task.TaskShortResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
