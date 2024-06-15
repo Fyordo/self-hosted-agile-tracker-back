@@ -36,6 +36,10 @@ public class TimeEntryServiceImpl implements TimeEntryService {
         return timeEntryRepository.findById(timeEntryId);
     }
 
+    public Optional<TimeEntry> getCurrentTimeEntry() {
+        return timeEntryRepository.findByUser_IdAndTimeStartBeforeAndTimeEndNull(securityWorkspace.getAuthUserId(), LocalDateTime.now());
+    }
+
     @Override
     public TimeEntry startTimeEntry(Task task, TimeEntryCreateRequest request) {
         TimeEntry timeEntry = new TimeEntry(
