@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/time_entry")
+@RequestMapping("/time-entry")
 public class TimeEntryController extends BaseController {
     private final TaskService taskService;
     private final TimeEntryService timeEntryService;
