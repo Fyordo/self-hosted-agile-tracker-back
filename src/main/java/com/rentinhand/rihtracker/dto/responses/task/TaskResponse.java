@@ -29,4 +29,6 @@ public class TaskResponse extends TaskShortResponse {
     protected UserResponse createdUser;
     private List<TimeEntryResponse> timeEntries;
     private Set<UserResponse> users;
+
+
 }

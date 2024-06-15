@@ -24,6 +24,6 @@ public interface TaskService extends SearchService<Task> {
 
     void deleteTask(Task task);
 
-    Task addUserToTask(Task task, User user);
+    Task addUserToTask(Long taskId, Long userId);
     Task changeTaskColumn(Task task, ScrumColumn scrumColumn);
 }
