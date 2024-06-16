@@ -139,6 +139,14 @@ public class TaskServiceImpl implements TaskService {
                 case "title" -> result = result.and(
                         qTask.title.eq(value)
                 );
+                case "my" -> {
+                    User user = securityWorkspace.getAuthUser();
+                    if (Objects.equals(value, "true")) {
+                        result = result.and(
+                                qTask.users.contains(user)
+                        );
+                    }
+                }
             }
         }
 
