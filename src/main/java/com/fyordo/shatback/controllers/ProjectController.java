@@ -5,6 +5,7 @@ import com.fyordo.shatback.dto.requests.scrumColumn.ScrumColumnDataRequest;
 import com.fyordo.shatback.dto.responses.ListResponse;
 import com.fyordo.shatback.dto.responses.project.ProjectDetailResponse;
 import com.fyordo.shatback.dto.responses.project.ProjectResponse;
+import com.fyordo.shatback.dto.responses.scrumColumn.ScrumColumnResponse;
 import com.fyordo.shatback.dto.responses.scrumColumn.ScrumColumnShortResponse;
 import com.fyordo.shatback.entities.Project;
 import com.fyordo.shatback.entities.ScrumColumn;
@@ -67,14 +68,14 @@ public class ProjectController extends BaseController {
     // ========== COLUMNS ===========
 
     @GetMapping("/{projectId}/columns")
-    public ResponseEntity<ListResponse<ScrumColumnShortResponse>> getColumnList(
+    public ResponseEntity<ListResponse<ScrumColumnResponse>> getColumnList(
             @PathVariable Long projectId
     ){
-        List<ScrumColumnShortResponse> columns = scrumColumnService.findAllInProject(
+        List<ScrumColumnResponse> columns = scrumColumnService.findAllInProject(
                         projectService.findById(projectId).orElseThrow(ModelNotFoundException::new)
                 )
                 .stream()
-                .map((ScrumColumn column) -> mapper.map(column, ScrumColumnShortResponse.class))
+                .map((ScrumColumn column) -> mapper.map(column, ScrumColumnResponse.class))
                 .toList()
                 ;
 

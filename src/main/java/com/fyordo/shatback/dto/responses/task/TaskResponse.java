@@ -1,6 +1,7 @@
 package com.fyordo.shatback.dto.responses.task;
 
 import com.fyordo.shatback.dto.responses.timeEntry.TimeEntryResponse;
+import com.fyordo.shatback.dto.responses.timeEntry.TimeEntryShortResponse;
 import com.fyordo.shatback.dto.responses.user.UserResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,6 @@ import java.util.Set;
 public class TaskResponse extends TaskShortResponse {
     protected String description;
     protected UserResponse createdUser;
-    private List<TimeEntryResponse> timeEntries;
+    private List<TimeEntryShortResponse> timeEntries;
     private Set<UserResponse> users;
 }
