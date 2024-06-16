@@ -23,7 +23,6 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/column/{columnId}")
-@DirectorAuth
 public class ScrumColumnController extends BaseController {
     private final ScrumColumnService scrumColumnService;
     private final TaskService taskService;

@@ -1,4 +1,4 @@
-package com.rentinhand.rihtracker.dto.responses.task;
+package com.fyordo.shatback.dto.responses;
 
 import com.fyordo.shatback.dto.responses.task.TaskShortResponse;
 import com.fyordo.shatback.dto.responses.timeEntry.TimeEntryResponse;

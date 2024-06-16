@@ -24,11 +24,11 @@ public class TimeEntryController extends BaseController {
     private final TimeEntryService timeEntryService;
 
     @GetMapping()
-    public ResponseEntity<ListResponse<TimeEntryShortResponse>> getTimeEntries(
+    public ResponseEntity<ListResponse<TimeEntryResponse>> getTimeEntries(
             @RequestParam Map<String, String> filter
             ) {
-        List<TimeEntryShortResponse> timeEntries = timeEntryService.findAllForCurrentWeek()
-                .stream().map((TimeEntry timeEntry) -> mapper.map(timeEntry, TimeEntryShortResponse.class)).toList();
+        List<TimeEntryResponse> timeEntries = timeEntryService.findAllForCurrentWeek()
+                .stream().map((TimeEntry timeEntry) -> mapper.map(timeEntry, TimeEntryResponse.class)).toList();
 
         return ResponseEntity.ok(new ListResponse<>(timeEntries));
     }
