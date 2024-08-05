@@ -27,7 +27,7 @@ public class TaskServiceImpl implements TaskService {
     private final ScrumColumnService scrumColumnService;
     private final UserService userService;
     private final TaskTypeService taskTypeService;
-    private ModelMapper mapper = new ModelMapper();
+    private final ModelMapper mapper = new ModelMapper();
 
     @Override
     public Collection<Task> findAll(Map<String, String> filter) {

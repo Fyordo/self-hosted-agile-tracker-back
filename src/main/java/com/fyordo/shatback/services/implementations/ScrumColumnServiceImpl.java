@@ -17,7 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ScrumColumnServiceImpl implements ScrumColumnService {
     private final ScrumColumnRepository scrumColumnRepository;
-    private ModelMapper mapper = new ModelMapper();
+    private final ModelMapper mapper = new ModelMapper();
 
     @Override
     public List<ScrumColumn> findAll() {

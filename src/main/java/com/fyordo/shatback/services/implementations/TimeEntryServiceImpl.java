@@ -30,9 +30,7 @@ public class TimeEntryServiceImpl implements TimeEntryService {
     private final TimeEntryRepository timeEntryRepository;
     private final SecurityWorkspace securityWorkspace;
     private final TaskService taskService;
-    private ModelMapper mapper = new ModelMapper();
     private TimeEntry activeTimeEntry;
-    private final ProjectRepository projectRepository;
 
     @Override
     public List<TimeEntry> findAll() {

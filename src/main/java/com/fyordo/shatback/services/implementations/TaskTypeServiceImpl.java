@@ -15,7 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TaskTypeServiceImpl implements TaskTypeService {
     private final TaskTypeRepository taskTypeRepository;
-    private ModelMapper mapper = new ModelMapper();
+    private final ModelMapper mapper = new ModelMapper();
 
     @Override
     public List<TaskType> findAll() {
